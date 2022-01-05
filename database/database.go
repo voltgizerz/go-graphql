@@ -19,6 +19,8 @@ func Connect() *Database {
 	if err != nil {
 		log.Println(errors.Wrap(err, "database connection"))
 	}
+	con.SetMaxOpenConns(10)
+
 	log.Println("database connected...")
 	return &Database{Con: con}
 }

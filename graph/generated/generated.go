@@ -8,6 +8,7 @@ import (
 	"errors"
 	"strconv"
 	"sync"
+	"sync/atomic"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
@@ -35,6 +36,7 @@ type Config struct {
 
 type ResolverRoot interface {
 	Mutation() MutationResolver
+	Pokemon() PokemonResolver
 	Query() QueryResolver
 }
 
@@ -62,6 +64,7 @@ type ComplexityRoot struct {
 		Height         func(childComplexity int) int
 		ID             func(childComplexity int) int
 		Name           func(childComplexity int) int
+		Types          func(childComplexity int) int
 		Weight         func(childComplexity int) int
 	}
 
@@ -94,6 +97,9 @@ type MutationResolver interface {
 	CreatePokemon(ctx context.Context, input models.CreatePokemonInput) (*models.CreatePokemonPayload, error)
 	DeletePokemon(ctx context.Context, input models.DeletePokemonInput) (*models.DeletePokemonPayload, error)
 	UpdatePokemon(ctx context.Context, input models.UpdatePokemonInput) (*models.UpdatePokemonPayload, error)
+}
+type PokemonResolver interface {
+	Types(ctx context.Context, obj *models.Pokemon) ([]*models.Type, error)
 }
 type QueryResolver interface {
 	Pokemon(ctx context.Context, pokemonID int) (*models.Pokemon, error)
@@ -200,6 +206,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Pokemon.Name(childComplexity), true
+
+	case "Pokemon.types":
+		if e.complexity.Pokemon.Types == nil {
+			break
+		}
+
+		return e.complexity.Pokemon.Types(childComplexity), true
 
 	case "Pokemon.weight":
 		if e.complexity.Pokemon.Weight == nil {
@@ -412,6 +425,7 @@ type Pokemon {
   height: Int!
   weight: Int!
   baseExperience: Int!
+  types: [Type]
 }
 `, BuiltIn: false},
 	{Name: "schemas/pokemon/pokemons.graphqls", Input: `
@@ -1021,6 +1035,38 @@ func (ec *executionContext) _Pokemon_baseExperience(ctx context.Context, field g
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Pokemon_types(ctx context.Context, field graphql.CollectedField, obj *models.Pokemon) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Pokemon",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Pokemon().Types(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*models.Type)
+	fc.Result = res
+	return ec.marshalOType2ᚕᚖgithubᚗcomᚋgoᚑgraphqlᚋmodelsᚐType(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _PokemonType_id(ctx context.Context, field graphql.CollectedField, obj *models.PokemonType) (ret graphql.Marshaler) {
@@ -2894,28 +2940,39 @@ func (ec *executionContext) _Pokemon(ctx context.Context, sel ast.SelectionSet, 
 		case "id":
 			out.Values[i] = ec._Pokemon_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "name":
 			out.Values[i] = ec._Pokemon_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "height":
 			out.Values[i] = ec._Pokemon_height(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "weight":
 			out.Values[i] = ec._Pokemon_weight(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "baseExperience":
 			out.Values[i] = ec._Pokemon_baseExperience(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
 			}
+		case "types":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Pokemon_types(ctx, field, obj)
+				return res
+			})
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

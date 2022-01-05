@@ -23,14 +23,6 @@ type DeletePokemonPayload struct {
 	Success bool `json:"success"`
 }
 
-type Pokemon struct {
-	ID             string `json:"id"`
-	Name           string `json:"name"`
-	Height         int    `json:"height"`
-	Weight         int    `json:"weight"`
-	BaseExperience int    `json:"baseExperience"`
-}
-
 type PokemonType struct {
 	ID        string `json:"id"`
 	PokemonID int    `json:"pokemonID"`

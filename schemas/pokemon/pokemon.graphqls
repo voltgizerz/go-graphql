@@ -9,4 +9,5 @@ type Pokemon {
   height: Int!
   weight: Int!
   baseExperience: Int!
+  types: [Type]
 }
