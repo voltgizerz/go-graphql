@@ -7,8 +7,8 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/apollo-graphql/graph/generated"
-	"github.com/apollo-graphql/resolvers"
+	"github.com/go-graphql/graph"
+	"github.com/go-graphql/graph/generated"
 )
 
 const defaultPort = "8080"
@@ -18,10 +18,8 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-  
-	// using inbuilt format constants
-	// shown in the table above
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{}}))
+
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
