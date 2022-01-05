@@ -6,7 +6,7 @@
   </a>
 </p>
 
-> Devastate discord bot to help community grow bigger
+> Example go graphql using library gqlgen
 
 ### 🏠 [Homepage](https://graphql-poke.herokuapp.com/)
 
@@ -68,7 +68,7 @@ make format
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/voltgizerz/bot-devastate/issues). 
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/voltgizerz/go-graphql/issues). 
 
 ## Show your support
 
