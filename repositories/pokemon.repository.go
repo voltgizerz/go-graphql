@@ -45,11 +45,11 @@ func (p *PokemonRepository) FindAll(limit *int, offset *int) ([]*models.Pokemon,
 
 	var pokemons []*models.Pokemon
 	for rows.Next() {
-		var poke models.Pokemon
-		if err := rows.Scan(&poke.ID, &poke.Name, &poke.Height, &poke.Weight, &poke.BaseExperience); err != nil {
+		var p models.Pokemon
+		if err := rows.Scan(&p.ID, &p.Name, &p.Height, &p.Weight, &p.BaseExperience); err != nil {
 			return nil, err
 		}
-		pokemons = append(pokemons, &poke)
+		pokemons = append(pokemons, &p)
 	}
 
 	if err = rows.Err(); err != nil {
@@ -69,4 +69,31 @@ func (p *PokemonRepository) FindByID(pokemonID int) (*models.Pokemon, error) {
 		return nil, err
 	}
 	return &pokemon, nil
+}
+
+// Create  -
+func (p *PokemonRepository) Create(pokemonID int) error {
+	_, err := p.DB.Exec("INSERT INTO from pokemons where id = ?", pokemonID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Update  -
+func (p *PokemonRepository) Update(pokemonID int) error {
+	_, err := p.DB.Exec("UPDATE from pokemons where id = ?", pokemonID)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Delete  -
+func (p *PokemonRepository) Delete(pokemonID int) error {
+	_, err := p.DB.Exec("DELETE from pokemons where id = ?", pokemonID)
+	if err != nil {
+		return err
+	}
+	return nil
 }

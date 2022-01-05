@@ -1,0 +1,17 @@
+
+extend type Mutation {
+  createPokemon(input: CreatePokemonInput! ): CreatePokemonPayload
+}
+
+input CreatePokemonInput {
+  id: Int!
+  name: String!
+  height: Int!
+  weight: Int!
+  baseExperience: Int!
+}
+
+type CreatePokemonPayload {
+  success: Boolean!
+  pokemon: Pokemon!
+}

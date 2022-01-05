@@ -29,3 +29,12 @@ func (poke *Pokemon) FetchAll(DB *db.Database) ([]*models.Pokemon, error) {
 	}
 	return pokemons, nil
 }
+
+func (poke *Pokemon) Delete(DB *db.Database) error {
+	repoPokemon := repositories.ProvidePokemonRepo(DB)
+	err := repoPokemon.Delete(poke.ID)
+	if err != nil {
+		return err
+	}
+	return nil
+}

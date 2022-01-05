@@ -1,0 +1,12 @@
+
+extend type Mutation {
+  deletePokemon(input: DeletePokemonInput! ): DeletePokemonPayload
+}
+
+input DeletePokemonInput {
+  id: Int!
+}
+
+type DeletePokemonPayload {
+  success: Boolean!
+}

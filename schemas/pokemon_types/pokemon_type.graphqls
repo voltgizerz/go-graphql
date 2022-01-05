@@ -1,0 +1,6 @@
+type PokemonType {
+  id: ID!
+  pokemonID: Int!
+  typeID: Int!
+  slot: Int!
+}

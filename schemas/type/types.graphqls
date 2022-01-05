@@ -1,0 +1,10 @@
+
+extend type Query {
+  types(typeID: Int): [Type]
+}
+
+type Type {
+  id: ID!
+  name: String!
+  damageTypeID: Int!
+}

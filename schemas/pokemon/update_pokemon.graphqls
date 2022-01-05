@@ -1,0 +1,17 @@
+
+extend type Mutation {
+  updatePokemon(input: UpdatePokemonInput! ): UpdatePokemonPayload
+}
+
+input UpdatePokemonInput {
+  id: Int!
+  name: String
+  height: Int
+  weight: Int
+  baseExperience: Int
+}
+
+type UpdatePokemonPayload {
+  success: Boolean!
+  pokemon: Pokemon!
+}
