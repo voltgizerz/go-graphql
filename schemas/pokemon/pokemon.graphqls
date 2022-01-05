@@ -1,9 +1,12 @@
 
 extend type Query {
-  pokemon(pokemonID: Int): Pokemon
+  pokemon(pokemonID: Int!): Pokemon
 }
 
 type Pokemon {
   id: ID!
   name: String!
+  height: Int!
+  weight: Int!
+  baseExperience: Int!
 }

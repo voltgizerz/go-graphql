@@ -5,11 +5,12 @@ package resolvers
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/go-graphql/models"
+	"github.com/go-graphql/services"
 )
 
 func (r *queryResolver) Pokemons(ctx context.Context, limit *int, offset *int) ([]*models.Pokemon, error) {
-	panic(fmt.Errorf("not implemented"))
+	service := services.Pokemon{Limit: limit, Offset: offset}
+	return service.FetchAll(r.DB)
 }

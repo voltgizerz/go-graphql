@@ -32,7 +32,7 @@ func main() {
 	DB := db.Connect()
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolvers.Resolver{
-		Con: DB.Con,
+		DB: DB,
 	}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))

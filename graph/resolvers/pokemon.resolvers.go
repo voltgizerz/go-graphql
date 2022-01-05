@@ -8,10 +8,12 @@ import (
 
 	"github.com/go-graphql/graph/generated"
 	"github.com/go-graphql/models"
+	"github.com/go-graphql/services"
 )
 
-func (r *queryResolver) Pokemon(ctx context.Context, pokemonID *int) (*models.Pokemon, error) {
-	return &models.Pokemon{ID: "1", Name: "Bulbasaur"}, nil
+func (r *queryResolver) Pokemon(ctx context.Context, pokemonID int) (*models.Pokemon, error) {
+	service := services.Pokemon{ID: pokemonID}
+	return service.FetchOne(r.DB)
 }
 
 // Query returns generated.QueryResolver implementation.
