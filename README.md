@@ -12,16 +12,19 @@
 
 ### ✨ [Playground](https://graphql-poke.herokuapp.com/)
 
-## Install Package
+## Installation
 
 ```sh
-make install
+create .env file
+DATA_SOURCE="your-database-source"
+PORT=8080
+GOLANG_ENV="test"
 ```
 
 ## Test
 
 ```sh
-npm test
+make test
 ```
 
 ## Usage
