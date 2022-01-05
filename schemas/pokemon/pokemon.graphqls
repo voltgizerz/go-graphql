@@ -1,0 +1,9 @@
+
+extend type Query {
+  pokemon(pokemonID: Int): Pokemon
+}
+
+type Pokemon {
+  id: ID!
+  name: String!
+}

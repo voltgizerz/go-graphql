@@ -30,4 +30,3 @@ func (db *Database) Close() {
 		log.Println(errors.Wrap(err, "database close"))
 	}
 }
-

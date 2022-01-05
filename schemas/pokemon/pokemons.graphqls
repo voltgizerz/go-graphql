@@ -1,0 +1,5 @@
+
+extend type Query {
+  pokemons(limit: Int, offset: Int): [Pokemon]
+}
+
