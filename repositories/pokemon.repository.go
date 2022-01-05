@@ -20,9 +20,24 @@ func ProvidePokemonRepo(DB *db.Database) PokemonRepository {
 	}
 }
 
+func (p *PokemonRepository) queryBuilder(baseQuery string, limit *int, offset *int) (string, []interface{}) {
+	var vals []interface{}
+	if limit != nil {
+		baseQuery += "LIMIT ? "
+		vals = append(vals, *limit)
+	}
+
+	if offset != nil {
+		baseQuery += "OFFSET ? "
+		vals = append(vals, *offset)
+	}
+	return baseQuery, vals
+}
+
 // FindAll -
-func (p *PokemonRepository) FindAll(limit *int, offse *int) ([]*models.Pokemon, error) {
-	rows, err := p.DB.Query("SELECT * from pokemons")
+func (p *PokemonRepository) FindAll(limit *int, offset *int) ([]*models.Pokemon, error) {
+	query, vals := p.queryBuilder("SELECT * from pokemons ", limit, offset)
+	rows, err := p.DB.Query(query, vals...)
 	if err != nil {
 		return nil, err
 	}
