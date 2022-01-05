@@ -211,6 +211,9 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
+	{Name: "schemas/pokemon/pokemon.graphqls", Input: ``, BuiltIn: false},
+	{Name: "schemas/scalars.graphqls", Input: `scalar Time
+`, BuiltIn: false},
 	{Name: "schemas/schema.graphqls", Input: `# GraphQL schema example
 #
 # https://gqlgen.com/getting-started/

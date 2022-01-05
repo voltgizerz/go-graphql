@@ -8,14 +8,14 @@ import (
 	"fmt"
 
 	"github.com/go-graphql/graph/generated"
-	"github.com/go-graphql/graph/model"
+	"github.com/go-graphql/models"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+func (r *mutationResolver) CreateTodo(ctx context.Context, input models.NewTodo) (*models.Todo, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
+func (r *queryResolver) Todos(ctx context.Context) ([]*models.Todo, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
