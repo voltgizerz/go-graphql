@@ -3,6 +3,7 @@ package repositories
 import (
 	"database/sql"
 	"errors"
+	"strconv"
 
 	db "github.com/go-graphql/database"
 	"github.com/go-graphql/models"
@@ -72,12 +73,27 @@ func (p *PokemonRepository) FindByID(pokemonID int) (*models.Pokemon, error) {
 }
 
 // Create  -
-func (p *PokemonRepository) Create(pokemonID int) error {
-	_, err := p.DB.Exec("INSERT INTO from pokemons where id = ?", pokemonID)
+func (p *PokemonRepository) Create(input models.CreatePokemonInput) (*models.Pokemon, error) {
+	queryInsert := "INSERT INTO pokemons(name, height, weight, base_experience) VALUES (?,?,?,?)"
+	row, err := p.DB.Exec(queryInsert, input.Name, input.Height, input.Weight, input.BaseExperience)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+
+	lastID, err := row.LastInsertId()
+	if err != nil {
+		return nil, err
+	}
+
+	pokemon := &models.Pokemon{
+		ID:             strconv.Itoa(int(lastID)),
+		Name:           input.Name,
+		Height:         input.Height,
+		Weight:         input.Weight,
+		BaseExperience: input.BaseExperience,
+		Types:          []*models.Type{},
+	}
+	return pokemon, nil
 }
 
 // Update  -

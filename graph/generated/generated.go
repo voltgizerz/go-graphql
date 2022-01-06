@@ -391,7 +391,6 @@ extend type Mutation {
 }
 
 input CreatePokemonInput {
-  id: Int!
   name: String!
   height: Int!
   weight: Int!
@@ -2703,14 +2702,6 @@ func (ec *executionContext) unmarshalInputCreatePokemonInput(ctx context.Context
 
 	for k, v := range asMap {
 		switch k {
-		case "id":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalNInt2int(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "name":
 			var err error
 

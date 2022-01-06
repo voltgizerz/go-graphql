@@ -7,7 +7,7 @@ import (
 )
 
 type Type struct {
-	ID *int
+	ID        *int
 	PokemonID int
 }
 

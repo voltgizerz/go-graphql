@@ -30,6 +30,15 @@ func (poke *Pokemon) FetchAll(DB *db.Database) ([]*models.Pokemon, error) {
 	return pokemons, nil
 }
 
+func (poke *Pokemon) Create(DB *db.Database, input models.CreatePokemonInput) (*models.Pokemon, error) {
+	repoPokemon := repositories.ProvidePokemonRepo(DB)
+	pokemon, err := repoPokemon.Create(input)
+	if err != nil {
+		return nil, err
+	}
+	return pokemon, nil
+}
+
 func (poke *Pokemon) Delete(DB *db.Database) error {
 	repoPokemon := repositories.ProvidePokemonRepo(DB)
 	err := repoPokemon.Delete(poke.ID)
