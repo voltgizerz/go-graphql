@@ -10,10 +10,12 @@ import (
 	"github.com/pkg/errors"
 )
 
+// Database -
 type Database struct {
 	Con *sql.DB
 }
 
+// Connect - connection to db
 func Connect() *Database {
 	con, err := sql.Open("mysql", os.Getenv("DATA_SOURCE"))
 	if err != nil {

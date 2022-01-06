@@ -13,7 +13,7 @@ type contextKey struct {
 	name string
 }
 
-// A stand-in for our database backed user object
+// User - a stand-in for our database backed user object
 type User struct {
 	Name    string
 	IsAdmin bool

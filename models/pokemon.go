@@ -1,5 +1,6 @@
 package models
 
+// Pokemon -
 type Pokemon struct {
 	ID             string  `json:"id"`
 	Name           string  `json:"name"`
