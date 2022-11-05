@@ -384,8 +384,8 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "schemas/federation.graphqls", Input: ``, BuiltIn: false},
-	{Name: "schemas/pokemon/create_pokemon.graphqls", Input: `
+	{Name: "graph/schemas/federation.graphqls", Input: ``, BuiltIn: false},
+	{Name: "graph/schemas/pokemon/create_pokemon.graphqls", Input: `
 extend type Mutation {
   createPokemon(input: CreatePokemonInput! ): CreatePokemonPayload
 }
@@ -401,7 +401,7 @@ type CreatePokemonPayload {
   success: Boolean!
   pokemon: Pokemon!
 }`, BuiltIn: false},
-	{Name: "schemas/pokemon/delete_pokemon.graphqls", Input: `
+	{Name: "graph/schemas/pokemon/delete_pokemon.graphqls", Input: `
 extend type Mutation {
   deletePokemon(input: DeletePokemonInput! ): DeletePokemonPayload
 }
@@ -413,8 +413,7 @@ input DeletePokemonInput {
 type DeletePokemonPayload {
   success: Boolean!
 }`, BuiltIn: false},
-	{Name: "schemas/pokemon/pokemon.graphqls", Input: `
-extend type Query {
+	{Name: "graph/schemas/pokemon/pokemon.graphqls", Input: `extend type Query {
   pokemon(pokemonID: Int!): Pokemon
 }
 
@@ -427,14 +426,12 @@ type Pokemon {
   types: [Type]
 }
 `, BuiltIn: false},
-	{Name: "schemas/pokemon/pokemons.graphqls", Input: `
-extend type Query {
+	{Name: "graph/schemas/pokemon/pokemons.graphqls", Input: `extend type Query {
   pokemons(limit: Int, offset: Int): [Pokemon]
 }
 
 `, BuiltIn: false},
-	{Name: "schemas/pokemon/update_pokemon.graphqls", Input: `
-extend type Mutation {
+	{Name: "graph/schemas/pokemon/update_pokemon.graphqls", Input: `extend type Mutation {
   updatePokemon(input: UpdatePokemonInput! ): UpdatePokemonPayload
 }
 
@@ -450,16 +447,16 @@ type UpdatePokemonPayload {
   success: Boolean!
   pokemon: Pokemon!
 }`, BuiltIn: false},
-	{Name: "schemas/pokemon_types/pokemon_type.graphqls", Input: `type PokemonType {
+	{Name: "graph/schemas/pokemon_types/pokemon_type.graphqls", Input: `type PokemonType {
   id: ID!
   pokemonID: Int!
   typeID: Int!
   slot: Int!
 }
 `, BuiltIn: false},
-	{Name: "schemas/scalars.graphqls", Input: `scalar Time
+	{Name: "graph/schemas/scalars.graphqls", Input: `scalar Time
 `, BuiltIn: false},
-	{Name: "schemas/type/types.graphqls", Input: `
+	{Name: "graph/schemas/type/types.graphqls", Input: `
 extend type Query {
   types(typeID: Int): [Type]
 }
