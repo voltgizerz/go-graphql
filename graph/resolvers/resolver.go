@@ -10,3 +10,9 @@ import "github.com/go-graphql/config"
 type Resolver struct {
 	DB *config.Database
 }
+
+func NewResolver(db *config.Database) *Resolver {
+	return &Resolver{
+		DB: db,
+	}
+}
