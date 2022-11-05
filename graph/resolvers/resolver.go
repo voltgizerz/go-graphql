@@ -11,6 +11,7 @@ type Resolver struct {
 	DB *config.Database
 }
 
+// NewResolver - .
 func NewResolver(db *config.Database) *Resolver {
 	return &Resolver{
 		DB: db,

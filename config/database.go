@@ -32,7 +32,7 @@ func InitDB() *Database {
 func (db *Database) Close() {
 	err := db.DB.Close()
 	if err != nil {
-		logger.Log.Println(errors.Wrap(err, "database close..."))
+		logger.Log.Println(errors.Wrap(err, "database close"))
 	}
 }
 
