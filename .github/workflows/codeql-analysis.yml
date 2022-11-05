@@ -20,6 +20,7 @@ on:
   schedule:
     - cron: '25 16 * * 6'
 
+
 jobs:
   analyze:
     name: Analyze
@@ -70,3 +71,4 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+

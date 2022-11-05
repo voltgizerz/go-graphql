@@ -5,17 +5,17 @@ import (
 	"errors"
 	"strconv"
 
-	db "github.com/go-graphql/database"
+	"github.com/go-graphql/config"
 	"github.com/go-graphql/models"
 )
 
 // PokemonRepository -
 type PokemonRepository struct {
-	DB *db.Database
+	DB *config.Database
 }
 
 // ProvidePokemonRepo -
-func ProvidePokemonRepo(DB *db.Database) PokemonRepository {
+func ProvidePokemonRepo(DB *config.Database) PokemonRepository {
 	return PokemonRepository{
 		DB: DB,
 	}
