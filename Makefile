@@ -13,7 +13,10 @@ run:
 	go run server.go
 
 test:
-	go test -v ./...
+	go test -v -cover ./...
+
+cover-out:
+	go test ./...  -coverpkg=./... -coverprofile ./coverage.out
 
 gqlgen_upgrade:
 	go get github.com/99designs/gqlgen
@@ -26,4 +29,5 @@ lint:
 
 check:
 	gofmt -w ./..
-	revive ./...
+	revive -config revive.toml ./...
+

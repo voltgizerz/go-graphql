@@ -1,17 +1,17 @@
 package repositories
 
 import (
-	db "github.com/go-graphql/database"
+	"github.com/go-graphql/config"
 	"github.com/go-graphql/models"
 )
 
 // TypeRepository -
 type TypeRepository struct {
-	DB *db.Database
+	DB *config.Database
 }
 
 // ProvideTypeRepo -
-func ProvideTypeRepo(DB *db.Database) TypeRepository {
+func ProvideTypeRepo(DB *config.Database) TypeRepository {
 	return TypeRepository{
 		DB: DB,
 	}

@@ -1,7 +1,7 @@
 package services
 
 import (
-	db "github.com/go-graphql/database"
+	"github.com/go-graphql/config"
 	"github.com/go-graphql/models"
 	"github.com/go-graphql/repositories"
 )
@@ -13,7 +13,7 @@ type Type struct {
 }
 
 // FetchAll -
-func (t *Type) FetchAll(DB *db.Database) ([]*models.Type, error) {
+func (t *Type) FetchAll(DB *config.Database) ([]*models.Type, error) {
 	repoType := repositories.ProvideTypeRepo(DB)
 	types, err := repoType.FindAll(t.ID)
 	if err != nil {
@@ -23,7 +23,7 @@ func (t *Type) FetchAll(DB *db.Database) ([]*models.Type, error) {
 }
 
 // FetchAllByPokemonID -
-func (t *Type) FetchAllByPokemonID(DB *db.Database) ([]*models.Type, error) {
+func (t *Type) FetchAllByPokemonID(DB *config.Database) ([]*models.Type, error) {
 	repoType := repositories.ProvideTypeRepo(DB)
 	types, err := repoType.FindAllByPokemonID(t.PokemonID)
 	if err != nil {

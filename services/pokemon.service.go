@@ -1,7 +1,7 @@
 package services
 
 import (
-	db "github.com/go-graphql/database"
+	"github.com/go-graphql/config"
 	"github.com/go-graphql/models"
 	"github.com/go-graphql/repositories"
 )
@@ -14,7 +14,7 @@ type Pokemon struct {
 }
 
 // FetchOne - fetch one pokemon data
-func (poke *Pokemon) FetchOne(DB *db.Database) (*models.Pokemon, error) {
+func (poke *Pokemon) FetchOne(DB *config.Database) (*models.Pokemon, error) {
 	repoPokemon := repositories.ProvidePokemonRepo(DB)
 	pokemon, err := repoPokemon.FindByID(poke.ID)
 	if err != nil {
@@ -24,7 +24,7 @@ func (poke *Pokemon) FetchOne(DB *db.Database) (*models.Pokemon, error) {
 }
 
 // FetchAll - fetch all pokemon data
-func (poke *Pokemon) FetchAll(DB *db.Database) ([]*models.Pokemon, error) {
+func (poke *Pokemon) FetchAll(DB *config.Database) ([]*models.Pokemon, error) {
 	repoPokemon := repositories.ProvidePokemonRepo(DB)
 	pokemons, err := repoPokemon.FindAll(poke.Limit, poke.Offset)
 	if err != nil {
@@ -34,7 +34,7 @@ func (poke *Pokemon) FetchAll(DB *db.Database) ([]*models.Pokemon, error) {
 }
 
 // Create - create a new pokemon
-func (poke *Pokemon) Create(DB *db.Database, input models.CreatePokemonInput) (*models.Pokemon, error) {
+func (poke *Pokemon) Create(DB *config.Database, input models.CreatePokemonInput) (*models.Pokemon, error) {
 	repoPokemon := repositories.ProvidePokemonRepo(DB)
 	pokemon, err := repoPokemon.Create(input)
 	if err != nil {
@@ -44,7 +44,7 @@ func (poke *Pokemon) Create(DB *db.Database, input models.CreatePokemonInput) (*
 }
 
 // Delete - delete data pokemon
-func (poke *Pokemon) Delete(DB *db.Database) error {
+func (poke *Pokemon) Delete(DB *config.Database) error {
 	repoPokemon := repositories.ProvidePokemonRepo(DB)
 	err := repoPokemon.Delete(poke.ID)
 	if err != nil {
