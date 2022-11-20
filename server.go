@@ -22,6 +22,8 @@ func main() {
 	// initialize database
 	db := config.InitDB()
 
+	// initialize repository
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort

@@ -9,14 +9,23 @@ import (
 	"github.com/go-graphql/models"
 )
 
+// PokemonRepositoryInterface - .
+type PokemonRepositoryInterface interface {
+	FindAll(limit *int, offset *int) ([]*models.Pokemon, error)
+	FindByID(pokemonID int) (*models.Pokemon, error)
+	Create(input models.CreatePokemonInput) (*models.Pokemon, error)
+	Update(pokemonID int) error
+	Delete(pokemonID int) error
+}
+
 // PokemonRepository -
 type PokemonRepository struct {
 	DB *config.Database
 }
 
-// ProvidePokemonRepo -
-func ProvidePokemonRepo(DB *config.Database) PokemonRepository {
-	return PokemonRepository{
+// NewPokemonRepository -
+func NewPokemonRepository(DB *config.Database) PokemonRepositoryInterface {
+	return &PokemonRepository{
 		DB: DB,
 	}
 }

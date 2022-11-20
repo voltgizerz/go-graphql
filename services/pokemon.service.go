@@ -15,7 +15,7 @@ type Pokemon struct {
 
 // FetchOne - fetch one pokemon data
 func (poke *Pokemon) FetchOne(DB *config.Database) (*models.Pokemon, error) {
-	repoPokemon := repository.ProvidePokemonRepo(DB)
+	repoPokemon := repository.NewPokemonRepository(DB)
 	pokemon, err := repoPokemon.FindByID(poke.ID)
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ func (poke *Pokemon) FetchOne(DB *config.Database) (*models.Pokemon, error) {
 
 // FetchAll - fetch all pokemon data
 func (poke *Pokemon) FetchAll(DB *config.Database) ([]*models.Pokemon, error) {
-	repoPokemon := repository.ProvidePokemonRepo(DB)
+	repoPokemon := repository.NewPokemonRepository(DB)
 	pokemons, err := repoPokemon.FindAll(poke.Limit, poke.Offset)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func (poke *Pokemon) FetchAll(DB *config.Database) ([]*models.Pokemon, error) {
 
 // Create - create a new pokemon
 func (poke *Pokemon) Create(DB *config.Database, input models.CreatePokemonInput) (*models.Pokemon, error) {
-	repoPokemon := repository.ProvidePokemonRepo(DB)
+	repoPokemon := repository.NewPokemonRepository(DB)
 	pokemon, err := repoPokemon.Create(input)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (poke *Pokemon) Create(DB *config.Database, input models.CreatePokemonInput
 
 // Delete - delete data pokemon
 func (poke *Pokemon) Delete(DB *config.Database) error {
-	repoPokemon := repository.ProvidePokemonRepo(DB)
+	repoPokemon := repository.NewPokemonRepository(DB)
 	err := repoPokemon.Delete(poke.ID)
 	if err != nil {
 		return err

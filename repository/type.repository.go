@@ -5,14 +5,20 @@ import (
 	"github.com/go-graphql/models"
 )
 
+// TypeRepositoryInterface - .
+type TypeRepositoryInterface interface {
+	FindAll(typeID *int) ([]*models.Type, error)
+	FindAllByPokemonID(pokemonID int) ([]*models.Type, error)
+}
+
 // TypeRepository -
 type TypeRepository struct {
 	DB *config.Database
 }
 
-// ProvideTypeRepo -
-func ProvideTypeRepo(DB *config.Database) TypeRepository {
-	return TypeRepository{
+// NewTypeRepository -
+func NewTypeRepository(DB *config.Database) TypeRepositoryInterface {
+	return &TypeRepository{
 		DB: DB,
 	}
 }
