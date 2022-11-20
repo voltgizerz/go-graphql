@@ -46,7 +46,7 @@ func (poke *Pokemon) Create(DB *config.Database, input models.CreatePokemonInput
 // Delete - delete data pokemon
 func (poke *Pokemon) Delete(DB *config.Database) error {
 	repoPokemon := repository.NewPokemonRepository(DB)
-	err := repoPokemon.Delete(poke.ID)
+	_, err := repoPokemon.Delete(poke.ID)
 	if err != nil {
 		return err
 	}

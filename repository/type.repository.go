@@ -8,7 +8,7 @@ import (
 // TypeRepositoryInterface - .
 type TypeRepositoryInterface interface {
 	FindAll(typeID *int) ([]*models.Type, error)
-	FindAllByPokemonID(pokemonID int) ([]*models.Type, error)
+	FindAllByPokemonID(id int) ([]*models.Type, error)
 }
 
 // TypeRepository -

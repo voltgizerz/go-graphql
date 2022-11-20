@@ -12,10 +12,10 @@ import (
 // PokemonRepositoryInterface - .
 type PokemonRepositoryInterface interface {
 	FindAll(limit *int, offset *int) ([]*models.Pokemon, error)
-	FindByID(pokemonID int) (*models.Pokemon, error)
+	FindByID(id int) (*models.Pokemon, error)
 	Create(input models.CreatePokemonInput) (*models.Pokemon, error)
-	Update(pokemonID int) error
-	Delete(pokemonID int) error
+	Update(id int) (int64, error)
+	Delete(id int) (int64, error)
 }
 
 // PokemonRepository -
@@ -69,9 +69,9 @@ func (p *PokemonRepository) FindAll(limit *int, offset *int) ([]*models.Pokemon,
 }
 
 // FindByID -
-func (p *PokemonRepository) FindByID(pokemonID int) (*models.Pokemon, error) {
+func (p *PokemonRepository) FindByID(id int) (*models.Pokemon, error) {
 	var pokemon models.Pokemon
-	row := p.DB.QueryRow("SELECT * from pokemons where id = ?", pokemonID)
+	row := p.DB.QueryRow("SELECT * from pokemons where id = ?", id)
 	if err := row.Scan(&pokemon.ID, &pokemon.Name, &pokemon.Height, &pokemon.Weight, &pokemon.BaseExperience); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, errors.New("record not found")
@@ -106,19 +106,19 @@ func (p *PokemonRepository) Create(input models.CreatePokemonInput) (*models.Pok
 }
 
 // Update  -
-func (p *PokemonRepository) Update(pokemonID int) error {
-	_, err := p.DB.Exec("UPDATE from pokemons where id = ?", pokemonID)
+func (p *PokemonRepository) Update(id int) (int64, error) {
+	res, err := p.DB.Exec("UPDATE from pokemons where id = ?", id)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	return nil
+	return res.LastInsertId()
 }
 
 // Delete  -
-func (p *PokemonRepository) Delete(pokemonID int) error {
-	_, err := p.DB.Exec("DELETE from pokemons where id = ?", pokemonID)
+func (p *PokemonRepository) Delete(id int) (int64, error) {
+	res, err := p.DB.Exec("DELETE from pokemons where id = ?", id)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	return nil
+	return res.LastInsertId()
 }
