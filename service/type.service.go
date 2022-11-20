@@ -8,19 +8,19 @@ import (
 
 // Type -
 type Type struct {
-	TypeRepo  repository.TypeRepository
+	TypeRepo  repository.TypeRepositoryInterface
 	ID        *int
 	PokemonID int
 }
 
-// TypeInterface - .
-type TypeInterface interface {
+// TypeServiceInterface - .
+type TypeServiceInterface interface {
 	FetchAll(DB *config.Database) ([]*models.Type, error)
 	FetchAllByPokemonID(DB *config.Database) ([]*models.Type, error)
 }
 
 // NewTypeService - .
-func NewTypeService(typeRepo repository.TypeRepository) TypeInterface {
+func NewTypeService(typeRepo repository.TypeRepositoryInterface) TypeServiceInterface {
 	return &Type{
 		TypeRepo: typeRepo,
 	}

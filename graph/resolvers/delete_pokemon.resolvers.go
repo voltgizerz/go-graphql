@@ -11,8 +11,8 @@ import (
 )
 
 func (r *mutationResolver) DeletePokemon(ctx context.Context, input models.DeletePokemonInput) (*models.DeletePokemonPayload, error) {
-	service := service.PokemonService{ID: input.ID}
-	err := service.Delete(r.DB)
+	srv := service.PokemonService{ID: input.ID}
+	err := srv.Delete(r.DB)
 	if err != nil {
 		return nil, err
 	}

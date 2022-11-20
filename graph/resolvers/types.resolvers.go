@@ -11,6 +11,6 @@ import (
 )
 
 func (r *queryResolver) Types(ctx context.Context, typeID *int) ([]*models.Type, error) {
-	service := service.Type{ID: typeID}
-	return service.FetchAll(r.DB)
+	srv := service.Type{ID: typeID}
+	return srv.FetchAll(r.DB)
 }

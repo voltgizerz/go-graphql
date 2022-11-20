@@ -12,8 +12,8 @@ import (
 )
 
 func (r *mutationResolver) CreatePokemon(ctx context.Context, input models.CreatePokemonInput) (*models.CreatePokemonPayload, error) {
-	service := service.PokemonService{}
-	pokemon, err := service.Create(r.DB, input)
+	srv := service.PokemonService{}
+	pokemon, err := srv.Create(r.DB, input)
 	if err != nil {
 		return nil, err
 	}

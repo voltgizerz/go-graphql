@@ -8,22 +8,22 @@ import (
 
 // PokemonService -
 type PokemonService struct {
-	PokemonRepo repository.PokemonRepository
+	PokemonRepo repository.PokemonRepositoryInterface
 	ID          int
 	Limit       *int
 	Offset      *int
 }
 
-// PokemonInterface - .
-type PokemonInterface interface {
+// PokemonServiceInterface - .
+type PokemonServiceInterface interface {
 	FetchOne(DB *config.Database) (*models.Pokemon, error)
 	FetchAll(DB *config.Database) ([]*models.Pokemon, error)
 	Create(DB *config.Database, input models.CreatePokemonInput) (*models.Pokemon, error)
 	Delete(DB *config.Database) error
 }
 
-// NewTypeService - .
-func NewPokemonService(pokemonRepo repository.PokemonRepository) PokemonInterface {
+// NewPokemonService - .
+func NewPokemonService(pokemonRepo repository.PokemonRepositoryInterface) PokemonServiceInterface {
 	return &PokemonService{
 		PokemonRepo: pokemonRepo,
 	}

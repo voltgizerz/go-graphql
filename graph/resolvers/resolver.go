@@ -1,6 +1,9 @@
 package resolvers
 
-import "github.com/go-graphql/config"
+import (
+	"github.com/go-graphql/config"
+	"github.com/go-graphql/service"
+)
 
 // This file will not be regenerated automatically.
 //
@@ -8,12 +11,7 @@ import "github.com/go-graphql/config"
 
 // Resolver -
 type Resolver struct {
-	DB *config.Database
-}
-
-// NewResolver - .
-func NewResolver(db *config.Database) *Resolver {
-	return &Resolver{
-		DB: db,
-	}
+	DB             *config.Database
+	PokemonService service.PokemonServiceInterface
+	TypeService    service.TypeServiceInterface
 }

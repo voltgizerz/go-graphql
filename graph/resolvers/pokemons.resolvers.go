@@ -11,6 +11,6 @@ import (
 )
 
 func (r *queryResolver) Pokemons(ctx context.Context, limit *int, offset *int) ([]*models.Pokemon, error) {
-	service := service.PokemonService{Limit: limit, Offset: offset}
-	return service.FetchAll(r.DB)
+	srv := service.PokemonService{Limit: limit, Offset: offset}
+	return srv.FetchAll(r.DB)
 }
