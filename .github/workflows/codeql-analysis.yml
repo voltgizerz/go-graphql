@@ -18,7 +18,8 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ "master" ]
   schedule:
-    - cron: '32 16 * * 1'
+    - cron: '25 16 * * 6'
+
 
 jobs:
   analyze:
@@ -70,3 +71,4 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+
