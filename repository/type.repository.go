@@ -1,18 +1,24 @@
-package repositories
+package repository
 
 import (
 	"github.com/go-graphql/config"
 	"github.com/go-graphql/models"
 )
 
+// TypeRepositoryInterface - .
+type TypeRepositoryInterface interface {
+	FindAll(typeID *int) ([]*models.Type, error)
+	FindAllByPokemonID(id int) ([]*models.Type, error)
+}
+
 // TypeRepository -
 type TypeRepository struct {
 	DB *config.Database
 }
 
-// ProvideTypeRepo -
-func ProvideTypeRepo(DB *config.Database) TypeRepository {
-	return TypeRepository{
+// NewTypeRepository -
+func NewTypeRepository(DB *config.Database) TypeRepositoryInterface {
+	return &TypeRepository{
 		DB: DB,
 	}
 }
@@ -48,6 +54,7 @@ func (p *TypeRepository) FindAll(typeID *int) ([]*models.Type, error) {
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
+
 	return types, nil
 }
 
@@ -71,5 +78,6 @@ func (p *TypeRepository) FindAllByPokemonID(pokemonID int) ([]*models.Type, erro
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
+
 	return types, nil
 }

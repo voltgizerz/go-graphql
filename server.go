@@ -6,6 +6,8 @@ import (
 
 	"github.com/go-graphql/config"
 	"github.com/go-graphql/logger"
+	"github.com/go-graphql/repository"
+	"github.com/go-graphql/service"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -22,15 +24,25 @@ func main() {
 	// initialize database
 	db := config.InitDB()
 
+	// initialize repository
+	pokemonRepo := repository.NewPokemonRepository(db)
+	typeRepo := repository.NewTypeRepository(db)
+
+	// initialize service
+	pokemonService := service.NewPokemonService(pokemonRepo)
+	typeService := service.NewTypeService(typeRepo)
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
 	}
 
-	resolver := resolvers.NewResolver(db)
-
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{
-		Resolvers: resolver,
+		Resolvers: &resolvers.Resolver{
+			DB:             db,
+			PokemonService: pokemonService,
+			TypeService:    typeService,
+		},
 	}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))

@@ -1,4 +1,4 @@
-package repositories
+package repository
 
 import (
 	"database/sql"
@@ -9,14 +9,23 @@ import (
 	"github.com/go-graphql/models"
 )
 
+// PokemonRepositoryInterface - .
+type PokemonRepositoryInterface interface {
+	FindAll(limit *int, offset *int) ([]*models.Pokemon, error)
+	FindByID(id int) (*models.Pokemon, error)
+	Create(input models.CreatePokemonInput) (*models.Pokemon, error)
+	Update(id int) (int64, error)
+	Delete(id int) (int64, error)
+}
+
 // PokemonRepository -
 type PokemonRepository struct {
 	DB *config.Database
 }
 
-// ProvidePokemonRepo -
-func ProvidePokemonRepo(DB *config.Database) PokemonRepository {
-	return PokemonRepository{
+// NewPokemonRepository -
+func NewPokemonRepository(DB *config.Database) PokemonRepositoryInterface {
+	return &PokemonRepository{
 		DB: DB,
 	}
 }
@@ -32,6 +41,7 @@ func (p *PokemonRepository) queryBuilder(baseQuery string, limit *int, offset *i
 		baseQuery += "OFFSET ? "
 		vals = append(vals, *offset)
 	}
+
 	return baseQuery, vals
 }
 
@@ -56,19 +66,21 @@ func (p *PokemonRepository) FindAll(limit *int, offset *int) ([]*models.Pokemon,
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
+
 	return pokemons, nil
 }
 
 // FindByID -
-func (p *PokemonRepository) FindByID(pokemonID int) (*models.Pokemon, error) {
+func (p *PokemonRepository) FindByID(id int) (*models.Pokemon, error) {
 	var pokemon models.Pokemon
-	row := p.DB.QueryRow("SELECT * from pokemons where id = ?", pokemonID)
+	row := p.DB.QueryRow("SELECT * from pokemons where id = ?", id)
 	if err := row.Scan(&pokemon.ID, &pokemon.Name, &pokemon.Height, &pokemon.Weight, &pokemon.BaseExperience); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, errors.New("record not found")
 		}
 		return nil, err
 	}
+
 	return &pokemon, nil
 }
 
@@ -93,23 +105,26 @@ func (p *PokemonRepository) Create(input models.CreatePokemonInput) (*models.Pok
 		BaseExperience: input.BaseExperience,
 		Types:          []*models.Type{},
 	}
+
 	return pokemon, nil
 }
 
 // Update  -
-func (p *PokemonRepository) Update(pokemonID int) error {
-	_, err := p.DB.Exec("UPDATE from pokemons where id = ?", pokemonID)
+func (p *PokemonRepository) Update(id int) (int64, error) {
+	res, err := p.DB.Exec("UPDATE from pokemons where id = ?", id)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	return nil
+
+	return res.LastInsertId()
 }
 
 // Delete  -
-func (p *PokemonRepository) Delete(pokemonID int) error {
-	_, err := p.DB.Exec("DELETE from pokemons where id = ?", pokemonID)
+func (p *PokemonRepository) Delete(id int) (int64, error) {
+	res, err := p.DB.Exec("DELETE from pokemons where id = ?", id)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	return nil
+
+	return res.LastInsertId()
 }

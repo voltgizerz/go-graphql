@@ -9,18 +9,18 @@ import (
 
 	"github.com/go-graphql/graph/generated"
 	"github.com/go-graphql/models"
-	"github.com/go-graphql/services"
+	"github.com/go-graphql/service"
 )
 
 func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*models.Type, error) {
 	id, _ := strconv.Atoi(obj.ID)
-	service := services.Type{PokemonID: id}
-	return service.FetchAllByPokemonID(r.DB)
+	srv := service.Type{PokemonID: id}
+	return srv.FetchAllByPokemonID(r.DB)
 }
 
 func (r *queryResolver) Pokemon(ctx context.Context, pokemonID int) (*models.Pokemon, error) {
-	service := services.Pokemon{ID: pokemonID}
-	return service.FetchOne(r.DB)
+	srv := service.PokemonService{ID: pokemonID}
+	return srv.FetchOne(r.DB)
 }
 
 // Pokemon returns generated.PokemonResolver implementation.
