@@ -41,6 +41,7 @@ func (p *PokemonRepository) queryBuilder(baseQuery string, limit *int, offset *i
 		baseQuery += "OFFSET ? "
 		vals = append(vals, *offset)
 	}
+
 	return baseQuery, vals
 }
 
@@ -65,6 +66,7 @@ func (p *PokemonRepository) FindAll(limit *int, offset *int) ([]*models.Pokemon,
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
+
 	return pokemons, nil
 }
 
@@ -78,6 +80,7 @@ func (p *PokemonRepository) FindByID(id int) (*models.Pokemon, error) {
 		}
 		return nil, err
 	}
+
 	return &pokemon, nil
 }
 
@@ -102,6 +105,7 @@ func (p *PokemonRepository) Create(input models.CreatePokemonInput) (*models.Pok
 		BaseExperience: input.BaseExperience,
 		Types:          []*models.Type{},
 	}
+
 	return pokemon, nil
 }
 
@@ -111,6 +115,7 @@ func (p *PokemonRepository) Update(id int) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return res.LastInsertId()
 }
 
@@ -120,5 +125,6 @@ func (p *PokemonRepository) Delete(id int) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return res.LastInsertId()
 }

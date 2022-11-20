@@ -54,6 +54,7 @@ func (p *TypeRepository) FindAll(typeID *int) ([]*models.Type, error) {
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
+
 	return types, nil
 }
 
@@ -77,5 +78,6 @@ func (p *TypeRepository) FindAllByPokemonID(pokemonID int) ([]*models.Type, erro
 	if err = rows.Err(); err != nil {
 		return nil, err
 	}
+
 	return types, nil
 }
