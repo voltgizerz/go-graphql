@@ -7,11 +7,11 @@ import (
 	"context"
 
 	"github.com/go-graphql/models"
-	"github.com/go-graphql/services"
+	"github.com/go-graphql/service"
 )
 
 func (r *mutationResolver) DeletePokemon(ctx context.Context, input models.DeletePokemonInput) (*models.DeletePokemonPayload, error) {
-	service := services.Pokemon{ID: input.ID}
+	service := service.PokemonService{ID: input.ID}
 	err := service.Delete(r.DB)
 	if err != nil {
 		return nil, err

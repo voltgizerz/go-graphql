@@ -1,4 +1,4 @@
-package services
+package service
 
 import (
 	"github.com/go-graphql/config"
@@ -8,8 +8,22 @@ import (
 
 // Type -
 type Type struct {
+	TypeRepo  repository.TypeRepository
 	ID        *int
 	PokemonID int
+}
+
+// TypeInterface - .
+type TypeInterface interface {
+	FetchAll(DB *config.Database) ([]*models.Type, error)
+	FetchAllByPokemonID(DB *config.Database) ([]*models.Type, error)
+}
+
+// NewTypeService - .
+func NewTypeService(typeRepo repository.TypeRepository) TypeInterface {
+	return &Type{
+		TypeRepo: typeRepo,
+	}
 }
 
 // FetchAll -

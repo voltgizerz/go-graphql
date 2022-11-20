@@ -7,10 +7,10 @@ import (
 	"context"
 
 	"github.com/go-graphql/models"
-	"github.com/go-graphql/services"
+	"github.com/go-graphql/service"
 )
 
 func (r *queryResolver) Pokemons(ctx context.Context, limit *int, offset *int) ([]*models.Pokemon, error) {
-	service := services.Pokemon{Limit: limit, Offset: offset}
+	service := service.PokemonService{Limit: limit, Offset: offset}
 	return service.FetchAll(r.DB)
 }
