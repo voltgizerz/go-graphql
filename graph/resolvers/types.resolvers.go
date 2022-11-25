@@ -7,10 +7,15 @@ import (
 	"context"
 
 	"github.com/go-graphql/models"
-	"github.com/go-graphql/service"
+	"github.com/go-graphql/utils"
+	"github.com/vektah/gqlparser/gqlerror"
 )
 
 func (r *queryResolver) Types(ctx context.Context, typeID *int) ([]*models.Type, error) {
-	srv := service.Type{ID: typeID}
-	return srv.FetchAll(r.DB)
+	res, err := r.Resolver.TypeService.FetchAll(utils.GetSafeInt(typeID))
+	if err != nil {
+		return nil, gqlerror.Errorf(err.Error())
+	}
+
+	return res, nil
 }

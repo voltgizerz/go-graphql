@@ -7,7 +7,7 @@ import (
 
 // TypeRepositoryInterface - .
 type TypeRepositoryInterface interface {
-	FindAll(typeID *int) ([]*models.Type, error)
+	FindAll(typeID int) ([]*models.Type, error)
 	FindAllByPokemonID(id int) ([]*models.Type, error)
 }
 
@@ -23,18 +23,18 @@ func NewTypeRepository(DB *config.Database) TypeRepositoryInterface {
 	}
 }
 
-func (p *TypeRepository) queryBuilder(baseQuery string, typeID *int) (string, []interface{}) {
+func (p *TypeRepository) queryBuilder(baseQuery string, typeID int) (string, []interface{}) {
 	var vals []interface{}
-	if typeID != nil {
+	if typeID != 0 {
 		baseQuery += "WHERE id = ?"
-		vals = append(vals, *typeID)
+		vals = append(vals, typeID)
 	}
 
 	return baseQuery, vals
 }
 
 // FindAll -
-func (p *TypeRepository) FindAll(typeID *int) ([]*models.Type, error) {
+func (p *TypeRepository) FindAll(typeID int) ([]*models.Type, error) {
 	query, vals := p.queryBuilder("SELECT * from types ", typeID)
 	rows, err := p.DB.Query(query, vals...)
 	if err != nil {
@@ -60,7 +60,8 @@ func (p *TypeRepository) FindAll(typeID *int) ([]*models.Type, error) {
 
 // FindAllByPokemonID -
 func (p *TypeRepository) FindAllByPokemonID(pokemonID int) ([]*models.Type, error) {
-	rows, err := p.DB.Query("SELECT t.* from types t JOIN pokemon_types pt ON t.id=pt.type_id where pt.pokemon_id = ?", pokemonID)
+	findAllDataByPokemonID := "SELECT t.* from types t JOIN pokemon_types pt ON t.id=pt.type_id where pt.pokemon_id = ?"
+	rows, err := p.DB.Query(findAllDataByPokemonID, pokemonID)
 	if err != nil {
 		return nil, err
 	}

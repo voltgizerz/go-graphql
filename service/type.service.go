@@ -1,22 +1,19 @@
 package service
 
 import (
-	"github.com/go-graphql/config"
 	"github.com/go-graphql/models"
 	"github.com/go-graphql/repository"
 )
 
 // Type -
 type Type struct {
-	TypeRepo  repository.TypeRepositoryInterface
-	ID        *int
-	PokemonID int
+	TypeRepo repository.TypeRepositoryInterface
 }
 
 // TypeServiceInterface - .
 type TypeServiceInterface interface {
-	FetchAll(DB *config.Database) ([]*models.Type, error)
-	FetchAllByPokemonID(DB *config.Database) ([]*models.Type, error)
+	FetchAll(typeID int) ([]*models.Type, error)
+	FetchAllByPokemonID(pokemonID int) ([]*models.Type, error)
 }
 
 // NewTypeService - .
@@ -27,21 +24,21 @@ func NewTypeService(typeRepo repository.TypeRepositoryInterface) TypeServiceInte
 }
 
 // FetchAll -
-func (t *Type) FetchAll(DB *config.Database) ([]*models.Type, error) {
-	repoType := repository.NewTypeRepository(DB)
-	types, err := repoType.FindAll(t.ID)
+func (t *Type) FetchAll(typeID int) ([]*models.Type, error) {
+	types, err := t.TypeRepo.FindAll(typeID)
 	if err != nil {
 		return nil, err
 	}
+
 	return types, nil
 }
 
 // FetchAllByPokemonID -
-func (t *Type) FetchAllByPokemonID(DB *config.Database) ([]*models.Type, error) {
-	repoType := repository.NewTypeRepository(DB)
-	types, err := repoType.FindAllByPokemonID(t.PokemonID)
+func (t *Type) FetchAllByPokemonID(pokemonID int) ([]*models.Type, error) {
+	types, err := t.TypeRepo.FindAllByPokemonID(pokemonID)
 	if err != nil {
 		return nil, err
 	}
+
 	return types, nil
 }

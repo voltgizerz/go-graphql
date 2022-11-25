@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"net/http"
 	"os"
 
@@ -8,6 +9,7 @@ import (
 	"github.com/go-graphql/logger"
 	"github.com/go-graphql/repository"
 	"github.com/go-graphql/service"
+	"github.com/vektah/gqlparser/gqlerror"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -39,11 +41,15 @@ func main() {
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{
 		Resolvers: &resolvers.Resolver{
-			DB:             db,
 			PokemonService: pokemonService,
 			TypeService:    typeService,
 		},
 	}))
+
+	srv.SetRecoverFunc(func(ctx context.Context, err interface{}) error {
+		logger.Log.Error(err)
+		return gqlerror.Errorf("Internal server error!")
+	})
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", auth.Middleware(srv))
