@@ -10,6 +10,7 @@ import (
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
+// DeletePokemon is the resolver for the deletePokemon field.
 func (r *mutationResolver) DeletePokemon(ctx context.Context, input models.DeletePokemonInput) (*models.DeletePokemonPayload, error) {
 	err := r.Resolver.PokemonService.Delete(input.ID)
 	if err != nil {

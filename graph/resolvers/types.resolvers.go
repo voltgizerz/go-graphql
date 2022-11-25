@@ -11,6 +11,7 @@ import (
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
+// Types is the resolver for the types field.
 func (r *queryResolver) Types(ctx context.Context, typeID *int) ([]*models.Type, error) {
 	res, err := r.Resolver.TypeService.FetchAll(utils.GetSafeInt(typeID))
 	if err != nil {

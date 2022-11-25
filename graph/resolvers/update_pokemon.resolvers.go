@@ -10,6 +10,7 @@ import (
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
+// UpdatePokemon is the resolver for the updatePokemon field.
 func (r *mutationResolver) UpdatePokemon(ctx context.Context, input models.UpdatePokemonInput) (*models.UpdatePokemonPayload, error) {
 	return nil, gqlerror.Errorf("Not Implemented!")
 }

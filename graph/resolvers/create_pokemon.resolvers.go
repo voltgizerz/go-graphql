@@ -11,6 +11,7 @@ import (
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
+// CreatePokemon is the resolver for the createPokemon field.
 func (r *mutationResolver) CreatePokemon(ctx context.Context, input models.CreatePokemonInput) (*models.CreatePokemonPayload, error) {
 	pokemon, err := r.Resolver.PokemonService.Create(input)
 	if err != nil {

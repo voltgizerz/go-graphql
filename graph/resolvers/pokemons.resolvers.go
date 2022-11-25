@@ -11,6 +11,7 @@ import (
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
+// Pokemons is the resolver for the pokemons field.
 func (r *queryResolver) Pokemons(ctx context.Context, limit *int, offset *int) ([]*models.Pokemon, error) {
 	res, err := r.PokemonService.FetchAll(utils.GetSafeInt(limit), utils.GetSafeInt(offset))
 	if err != nil {
