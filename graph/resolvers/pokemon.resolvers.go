@@ -12,6 +12,7 @@ import (
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
+// Types is the resolver for the types field.
 func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*models.Type, error) {
 	id, err := strconv.Atoi(obj.ID)
 	if err != nil {
@@ -26,6 +27,7 @@ func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*mo
 	return res, nil
 }
 
+// Pokemon is the resolver for the pokemon field.
 func (r *queryResolver) Pokemon(ctx context.Context, pokemonID int) (*models.Pokemon, error) {
 	return r.Resolver.PokemonService.FetchOne(pokemonID)
 }
