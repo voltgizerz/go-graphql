@@ -60,7 +60,8 @@ func (p *TypeRepository) FindAll(typeID int) ([]*models.Type, error) {
 
 // FindAllByPokemonID -
 func (p *TypeRepository) FindAllByPokemonID(pokemonID int) ([]*models.Type, error) {
-	rows, err := p.DB.Query("SELECT t.* from types t JOIN pokemon_types pt ON t.id=pt.type_id where pt.pokemon_id = ?", pokemonID)
+	findAllDataByPokemonID := "SELECT t.* from types t JOIN pokemon_types pt ON t.id=pt.type_id where pt.pokemon_id = ?"
+	rows, err := p.DB.Query(findAllDataByPokemonID, pokemonID)
 	if err != nil {
 		return nil, err
 	}

@@ -31,6 +31,7 @@ func (p *PokemonService) FetchOne(id int) (*models.Pokemon, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return pokemon, nil
 }
 
@@ -40,6 +41,7 @@ func (p *PokemonService) FetchAll(limit, offset int) ([]*models.Pokemon, error) 
 	if err != nil {
 		return nil, err
 	}
+
 	return pokemons, nil
 }
 
@@ -49,6 +51,7 @@ func (p *PokemonService) Create(input models.CreatePokemonInput) (*models.Pokemo
 	if err != nil {
 		return nil, err
 	}
+
 	return pokemon, nil
 }
 
@@ -58,5 +61,6 @@ func (p *PokemonService) Delete(id int) error {
 	if err != nil {
 		return err
 	}
+
 	return nil
 }

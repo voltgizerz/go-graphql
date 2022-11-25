@@ -1,7 +1,6 @@
 package resolvers
 
 import (
-	"github.com/go-graphql/config"
 	"github.com/go-graphql/service"
 )
 
@@ -11,7 +10,6 @@ import (
 
 // Resolver -
 type Resolver struct {
-	DB             *config.Database
 	PokemonService service.PokemonServiceInterface
 	TypeService    service.TypeServiceInterface
 }

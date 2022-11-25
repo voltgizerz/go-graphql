@@ -29,6 +29,7 @@ func (t *Type) FetchAll(typeID int) ([]*models.Type, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return types, nil
 }
 
@@ -38,5 +39,6 @@ func (t *Type) FetchAllByPokemonID(pokemonID int) ([]*models.Type, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return types, nil
 }
