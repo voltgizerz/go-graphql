@@ -19,7 +19,7 @@ func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*mo
 		return nil, gqlerror.Errorf(err.Error())
 	}
 
-	res, err := r.Resolver.TypeService.FetchAllByPokemonID(id)
+	res, err := r.Resolver.TypeService.FetchAll(id)
 	if err != nil {
 		return nil, gqlerror.Errorf(err.Error())
 	}
