@@ -8,12 +8,13 @@ import (
 
 	"github.com/go-graphql/graph/generated"
 	"github.com/go-graphql/models"
+	"github.com/vektah/gqlparser/gqlerror"
 )
 
 func (r *mutationResolver) CreatePokemon(ctx context.Context, input models.CreatePokemonInput) (*models.CreatePokemonPayload, error) {
 	pokemon, err := r.Resolver.PokemonService.Create(input)
 	if err != nil {
-		return nil, err
+		return nil, gqlerror.Errorf(err.Error())
 	}
 
 	return &models.CreatePokemonPayload{

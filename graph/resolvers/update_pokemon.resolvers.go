@@ -5,11 +5,11 @@ package resolvers
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/go-graphql/models"
+	"github.com/vektah/gqlparser/gqlerror"
 )
 
 func (r *mutationResolver) UpdatePokemon(ctx context.Context, input models.UpdatePokemonInput) (*models.UpdatePokemonPayload, error) {
-	panic(fmt.Errorf("not implemented"))
+	return nil, gqlerror.Errorf("Not Implemented!")
 }

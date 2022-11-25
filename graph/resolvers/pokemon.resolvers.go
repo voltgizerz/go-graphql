@@ -9,15 +9,21 @@ import (
 
 	"github.com/go-graphql/graph/generated"
 	"github.com/go-graphql/models"
+	"github.com/vektah/gqlparser/gqlerror"
 )
 
 func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*models.Type, error) {
 	id, err := strconv.Atoi(obj.ID)
 	if err != nil {
-		return nil, err
+		return nil, gqlerror.Errorf(err.Error())
 	}
 
-	return r.Resolver.TypeService.FetchAllByPokemonID(id)
+	res, err := r.Resolver.TypeService.FetchAllByPokemonID(id)
+	if err != nil {
+		return nil, gqlerror.Errorf(err.Error())
+	}
+
+	return res, nil
 }
 
 func (r *queryResolver) Pokemon(ctx context.Context, pokemonID int) (*models.Pokemon, error) {

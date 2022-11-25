@@ -8,8 +8,14 @@ import (
 
 	"github.com/go-graphql/models"
 	"github.com/go-graphql/utils"
+	"github.com/vektah/gqlparser/gqlerror"
 )
 
 func (r *queryResolver) Pokemons(ctx context.Context, limit *int, offset *int) ([]*models.Pokemon, error) {
-	return r.PokemonService.FetchAll(utils.GetSafeInt(limit), utils.GetSafeInt(offset))
+	res, err := r.PokemonService.FetchAll(utils.GetSafeInt(limit), utils.GetSafeInt(offset))
+	if err != nil {
+		return nil, gqlerror.Errorf(err.Error())
+	}
+
+	return res, nil
 }
