@@ -7,10 +7,9 @@ import (
 	"context"
 
 	"github.com/go-graphql/models"
-	"github.com/go-graphql/service"
+	"github.com/go-graphql/utils"
 )
 
 func (r *queryResolver) Types(ctx context.Context, typeID *int) ([]*models.Type, error) {
-	srv := service.Type{ID: typeID}
-	return srv.FetchAll(r.DB)
+	return r.Resolver.TypeService.FetchAll(utils.GetSafeInt(typeID))
 }

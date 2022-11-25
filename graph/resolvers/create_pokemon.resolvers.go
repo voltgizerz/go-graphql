@@ -8,16 +8,18 @@ import (
 
 	"github.com/go-graphql/graph/generated"
 	"github.com/go-graphql/models"
-	"github.com/go-graphql/service"
 )
 
 func (r *mutationResolver) CreatePokemon(ctx context.Context, input models.CreatePokemonInput) (*models.CreatePokemonPayload, error) {
-	srv := service.PokemonService{}
-	pokemon, err := srv.Create(r.DB, input)
+	pokemon, err := r.Resolver.PokemonService.Create(input)
 	if err != nil {
 		return nil, err
 	}
-	return &models.CreatePokemonPayload{Success: true, Pokemon: pokemon}, nil
+
+	return &models.CreatePokemonPayload{
+		Success: true,
+		Pokemon: pokemon,
+	}, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.

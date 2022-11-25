@@ -11,7 +11,7 @@ import (
 
 // PokemonRepositoryInterface - .
 type PokemonRepositoryInterface interface {
-	FindAll(limit *int, offset *int) ([]*models.Pokemon, error)
+	FindAll(limit int, offset int) ([]*models.Pokemon, error)
 	FindByID(id int) (*models.Pokemon, error)
 	Create(input models.CreatePokemonInput) (*models.Pokemon, error)
 	Update(id int) (int64, error)
@@ -30,23 +30,23 @@ func NewPokemonRepository(DB *config.Database) PokemonRepositoryInterface {
 	}
 }
 
-func (p *PokemonRepository) queryBuilder(baseQuery string, limit *int, offset *int) (string, []interface{}) {
+func (p *PokemonRepository) queryBuilder(baseQuery string, limit int, offset int) (string, []interface{}) {
 	var vals []interface{}
-	if limit != nil {
+	if limit != 0 {
 		baseQuery += "LIMIT ? "
-		vals = append(vals, *limit)
+		vals = append(vals, limit)
 	}
 
-	if offset != nil {
+	if offset != 0 {
 		baseQuery += "OFFSET ? "
-		vals = append(vals, *offset)
+		vals = append(vals, offset)
 	}
 
 	return baseQuery, vals
 }
 
 // FindAll -
-func (p *PokemonRepository) FindAll(limit *int, offset *int) ([]*models.Pokemon, error) {
+func (p *PokemonRepository) FindAll(limit int, offset int) ([]*models.Pokemon, error) {
 	query, vals := p.queryBuilder("SELECT * from pokemons ", limit, offset)
 	rows, err := p.DB.Query(query, vals...)
 	if err != nil {
