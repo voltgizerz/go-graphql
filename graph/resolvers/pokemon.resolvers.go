@@ -19,7 +19,7 @@ func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*mo
 		return nil, gqlerror.Errorf(err.Error())
 	}
 
-	res, err := r.Resolver.TypeService.FetchAll(id)
+	res, err := r.Resolver.TypeService.FetchAll(ctx, id)
 	if err != nil {
 		return nil, gqlerror.Errorf(err.Error())
 	}
@@ -29,7 +29,7 @@ func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*mo
 
 // Pokemon is the resolver for the pokemon field.
 func (r *queryResolver) Pokemon(ctx context.Context, pokemonID int) (*models.Pokemon, error) {
-	return r.Resolver.PokemonService.FetchOne(pokemonID)
+	return r.Resolver.PokemonService.FetchOne(ctx, pokemonID)
 }
 
 // Pokemon returns generated.PokemonResolver implementation.

@@ -13,7 +13,7 @@ import (
 
 // Pokemons is the resolver for the pokemons field.
 func (r *queryResolver) Pokemons(ctx context.Context, limit *int, offset *int) ([]*models.Pokemon, error) {
-	res, err := r.PokemonService.FetchAll(utils.GetSafeInt(limit), utils.GetSafeInt(offset))
+	res, err := r.PokemonService.FetchAll(ctx, utils.GetSafeInt(limit), utils.GetSafeInt(offset))
 	if err != nil {
 		return nil, gqlerror.Errorf(err.Error())
 	}

@@ -12,7 +12,7 @@ import (
 
 // DeletePokemon is the resolver for the deletePokemon field.
 func (r *mutationResolver) DeletePokemon(ctx context.Context, input models.DeletePokemonInput) (*models.DeletePokemonPayload, error) {
-	err := r.Resolver.PokemonService.Delete(input.ID)
+	err := r.Resolver.PokemonService.Delete(ctx, input.ID)
 	if err != nil {
 		return nil, gqlerror.Errorf(err.Error())
 	}
