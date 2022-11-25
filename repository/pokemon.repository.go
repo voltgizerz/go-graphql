@@ -11,7 +11,7 @@ import (
 
 // PokemonRepositoryInterface - .
 type PokemonRepositoryInterface interface {
-	FindAll(limit int, offset int) ([]*models.Pokemon, error)
+	FetchAllPokemonData(limit int, offset int) ([]*models.Pokemon, error)
 	FindByID(id int) (*models.Pokemon, error)
 	Create(input models.CreatePokemonInput) (*models.Pokemon, error)
 	Update(id int) (int64, error)
@@ -46,7 +46,7 @@ func (p *PokemonRepository) queryBuilder(baseQuery string, limit int, offset int
 }
 
 // FindAll -
-func (p *PokemonRepository) FindAll(limit int, offset int) ([]*models.Pokemon, error) {
+func (p *PokemonRepository) FetchAllPokemonData(limit int, offset int) ([]*models.Pokemon, error) {
 	query, vals := p.queryBuilder("SELECT * from pokemons ", limit, offset)
 	rows, err := p.DB.Query(query, vals...)
 	if err != nil {

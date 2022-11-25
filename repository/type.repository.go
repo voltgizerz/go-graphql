@@ -7,7 +7,7 @@ import (
 
 // TypeRepositoryInterface - .
 type TypeRepositoryInterface interface {
-	FindAll(typeID int) ([]*models.Type, error)
+	FindTypeByID(typeID int) ([]*models.Type, error)
 	FindAllByPokemonID(id int) ([]*models.Type, error)
 }
 
@@ -34,7 +34,7 @@ func (p *TypeRepository) queryBuilder(baseQuery string, typeID int) (string, []i
 }
 
 // FindAll -
-func (p *TypeRepository) FindAll(typeID int) ([]*models.Type, error) {
+func (p *TypeRepository) FindTypeByID(typeID int) ([]*models.Type, error) {
 	query, vals := p.queryBuilder("SELECT * from types ", typeID)
 	rows, err := p.DB.Query(query, vals...)
 	if err != nil {

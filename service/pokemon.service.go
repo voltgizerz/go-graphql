@@ -5,17 +5,17 @@ import (
 	"github.com/go-graphql/repository"
 )
 
-// PokemonService -
-type PokemonService struct {
-	PokemonRepo repository.PokemonRepositoryInterface
-}
-
 // PokemonServiceInterface - .
 type PokemonServiceInterface interface {
 	FetchOne(id int) (*models.Pokemon, error)
 	FetchAll(limit, offset int) ([]*models.Pokemon, error)
 	Create(input models.CreatePokemonInput) (*models.Pokemon, error)
 	Delete(id int) error
+}
+
+// PokemonService -
+type PokemonService struct {
+	PokemonRepo repository.PokemonRepositoryInterface
 }
 
 // NewPokemonService - .
@@ -37,7 +37,7 @@ func (p *PokemonService) FetchOne(id int) (*models.Pokemon, error) {
 
 // FetchAll - fetch all pokemon data
 func (p *PokemonService) FetchAll(limit, offset int) ([]*models.Pokemon, error) {
-	pokemons, err := p.PokemonRepo.FindAll(limit, offset)
+	pokemons, err := p.PokemonRepo.FetchAllPokemonData(limit, offset)
 	if err != nil {
 		return nil, err
 	}
