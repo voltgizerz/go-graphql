@@ -12,6 +12,8 @@ import (
 
 // DeletePokemon is the resolver for the deletePokemon field.
 func (r *mutationResolver) DeletePokemon(ctx context.Context, input models.DeletePokemonInput) (*models.DeletePokemonPayload, error) {
+	// user := auth.ForContext(ctx)
+
 	err := r.Resolver.PokemonService.Delete(ctx, input.ID)
 	if err != nil {
 		return nil, gqlerror.Errorf(err.Error())

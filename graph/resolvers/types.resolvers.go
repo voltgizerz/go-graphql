@@ -13,6 +13,8 @@ import (
 
 // Types is the resolver for the types field.
 func (r *queryResolver) Types(ctx context.Context, typeID *int) ([]*models.Type, error) {
+	// user := auth.ForContext(ctx)
+
 	res, err := r.Resolver.TypeService.FetchAll(ctx, utils.GetSafeInt(typeID))
 	if err != nil {
 		return nil, gqlerror.Errorf(err.Error())
