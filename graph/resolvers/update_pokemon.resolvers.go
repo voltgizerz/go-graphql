@@ -12,5 +12,7 @@ import (
 
 // UpdatePokemon is the resolver for the updatePokemon field.
 func (r *mutationResolver) UpdatePokemon(ctx context.Context, input models.UpdatePokemonInput) (*models.UpdatePokemonPayload, error) {
+	// user := auth.ForContext(ctx)
+
 	return nil, gqlerror.Errorf("Not Implemented!")
 }

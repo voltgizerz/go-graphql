@@ -7,13 +7,22 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/go-graphql/auth"
 	"github.com/go-graphql/graph/generated"
+	"github.com/go-graphql/logger"
 	"github.com/go-graphql/models"
+	"github.com/sirupsen/logrus"
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
 // Types is the resolver for the types field.
 func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*models.Type, error) {
+	user := auth.ForContext(ctx)
+	logger.Log.WithFields(logrus.Fields{
+		"user_id":  user.UserID,
+		"is_admin": user.IsAdmin,
+	}).Info("Types pokemonResolver")
+
 	id, err := strconv.Atoi(obj.ID)
 	if err != nil {
 		return nil, gqlerror.Errorf(err.Error())
@@ -29,6 +38,12 @@ func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*mo
 
 // Pokemon is the resolver for the pokemon field.
 func (r *queryResolver) Pokemon(ctx context.Context, pokemonID int) (*models.Pokemon, error) {
+	user := auth.ForContext(ctx)
+	logger.Log.WithFields(logrus.Fields{
+		"user_id":  user.UserID,
+		"is_admin": user.IsAdmin,
+	}).Info("Pokemon queryResolver")
+
 	return r.Resolver.PokemonService.FetchOne(ctx, pokemonID)
 }
 

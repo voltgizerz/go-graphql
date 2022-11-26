@@ -25,7 +25,7 @@ func NewTypeService(typeRepo repository.TypeRepositoryInterface) TypeServiceInte
 	}
 }
 
-// FetchAll -
+// FetchOne -
 func (t *Type) FetchOne(ctx context.Context, typeID int) ([]*models.Type, error) {
 	types, err := t.TypeRepo.FindTypeByID(typeID)
 	if err != nil {
@@ -35,7 +35,7 @@ func (t *Type) FetchOne(ctx context.Context, typeID int) ([]*models.Type, error)
 	return types, nil
 }
 
-// FetchAllByPokemonID -
+// FetchAll -
 func (t *Type) FetchAll(ctx context.Context, pokemonID int) ([]*models.Type, error) {
 	types, err := t.TypeRepo.FindAllByPokemonID(pokemonID)
 	if err != nil {

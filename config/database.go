@@ -3,6 +3,7 @@ package config
 import (
 	"database/sql"
 	"os"
+	"time"
 
 	// database
 	"github.com/go-graphql/logger"
@@ -23,6 +24,7 @@ func InitDB() *Database {
 	}
 
 	db.SetMaxOpenConns(10)
+	db.SetConnMaxIdleTime(time.Minute * 10)
 
 	logger.Log.Println("database connected...")
 	return &Database{DB: db}
@@ -38,18 +40,15 @@ func (db *Database) Close() {
 
 // QueryRow -
 func (db *Database) QueryRow(query string, args ...interface{}) *sql.Row {
-	logger.Log.Println(query, args)
 	return db.DB.QueryRow(query, args...)
 }
 
 // Query -
 func (db *Database) Query(query string, args ...interface{}) (*sql.Rows, error) {
-	logger.Log.Println(query, args)
 	return db.DB.Query(query, args...)
 }
 
 // Exec -
 func (db *Database) Exec(query string, args ...interface{}) (sql.Result, error) {
-	logger.Log.Println(query, args)
 	return db.DB.Exec(query, args...)
 }

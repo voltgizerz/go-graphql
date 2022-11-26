@@ -57,6 +57,14 @@ make format
 * Update Pokemon
 * Delete Pokemon
 
+💡 **Request Header**
+
+`
+{
+  "user_id": 2323
+}
+`
+
 ## Author
 
 👤 **Felix Fernando**
