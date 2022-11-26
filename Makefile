@@ -31,3 +31,6 @@ check:
 	gofmt -w ./..
 	revive -config revive.toml ./...
 
+generate-mock:
+	mockgen -source=./service/type.service.go -destination=./mocks/mock_TypeService.go 
+	mockgen -source=./service/pokemon.service.go -destination=./mocks/mock_PokemonService.go 
