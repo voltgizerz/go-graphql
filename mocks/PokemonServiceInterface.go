@@ -2,6 +2,7 @@
 
 package mocks
 
+import context "context"
 import mock "github.com/stretchr/testify/mock"
 import models "github.com/go-graphql/models"
 
@@ -10,13 +11,13 @@ type PokemonServiceInterface struct {
 	mock.Mock
 }
 
-// Create provides a mock function with given fields: input
-func (_m *PokemonServiceInterface) Create(input models.CreatePokemonInput) (*models.Pokemon, error) {
-	ret := _m.Called(input)
+// Create provides a mock function with given fields: ctx, input
+func (_m *PokemonServiceInterface) Create(ctx context.Context, input models.CreatePokemonInput) (*models.Pokemon, error) {
+	ret := _m.Called(ctx, input)
 
 	var r0 *models.Pokemon
-	if rf, ok := ret.Get(0).(func(models.CreatePokemonInput) *models.Pokemon); ok {
-		r0 = rf(input)
+	if rf, ok := ret.Get(0).(func(context.Context, models.CreatePokemonInput) *models.Pokemon); ok {
+		r0 = rf(ctx, input)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*models.Pokemon)
@@ -24,8 +25,8 @@ func (_m *PokemonServiceInterface) Create(input models.CreatePokemonInput) (*mod
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(models.CreatePokemonInput) error); ok {
-		r1 = rf(input)
+	if rf, ok := ret.Get(1).(func(context.Context, models.CreatePokemonInput) error); ok {
+		r1 = rf(ctx, input)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -33,13 +34,13 @@ func (_m *PokemonServiceInterface) Create(input models.CreatePokemonInput) (*mod
 	return r0, r1
 }
 
-// Delete provides a mock function with given fields: id
-func (_m *PokemonServiceInterface) Delete(id int) error {
-	ret := _m.Called(id)
+// Delete provides a mock function with given fields: ctx, id
+func (_m *PokemonServiceInterface) Delete(ctx context.Context, id int) error {
+	ret := _m.Called(ctx, id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(int) error); ok {
-		r0 = rf(id)
+	if rf, ok := ret.Get(0).(func(context.Context, int) error); ok {
+		r0 = rf(ctx, id)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -47,13 +48,13 @@ func (_m *PokemonServiceInterface) Delete(id int) error {
 	return r0
 }
 
-// FetchAll provides a mock function with given fields: limit, offset
-func (_m *PokemonServiceInterface) FetchAll(limit int, offset int) ([]*models.Pokemon, error) {
-	ret := _m.Called(limit, offset)
+// FetchAll provides a mock function with given fields: ctx, limit, offset
+func (_m *PokemonServiceInterface) FetchAll(ctx context.Context, limit int, offset int) ([]*models.Pokemon, error) {
+	ret := _m.Called(ctx, limit, offset)
 
 	var r0 []*models.Pokemon
-	if rf, ok := ret.Get(0).(func(int, int) []*models.Pokemon); ok {
-		r0 = rf(limit, offset)
+	if rf, ok := ret.Get(0).(func(context.Context, int, int) []*models.Pokemon); ok {
+		r0 = rf(ctx, limit, offset)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]*models.Pokemon)
@@ -61,8 +62,8 @@ func (_m *PokemonServiceInterface) FetchAll(limit int, offset int) ([]*models.Po
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(int, int) error); ok {
-		r1 = rf(limit, offset)
+	if rf, ok := ret.Get(1).(func(context.Context, int, int) error); ok {
+		r1 = rf(ctx, limit, offset)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -70,13 +71,13 @@ func (_m *PokemonServiceInterface) FetchAll(limit int, offset int) ([]*models.Po
 	return r0, r1
 }
 
-// FetchOne provides a mock function with given fields: id
-func (_m *PokemonServiceInterface) FetchOne(id int) (*models.Pokemon, error) {
-	ret := _m.Called(id)
+// FetchOne provides a mock function with given fields: ctx, id
+func (_m *PokemonServiceInterface) FetchOne(ctx context.Context, id int) (*models.Pokemon, error) {
+	ret := _m.Called(ctx, id)
 
 	var r0 *models.Pokemon
-	if rf, ok := ret.Get(0).(func(int) *models.Pokemon); ok {
-		r0 = rf(id)
+	if rf, ok := ret.Get(0).(func(context.Context, int) *models.Pokemon); ok {
+		r0 = rf(ctx, id)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*models.Pokemon)
@@ -84,8 +85,8 @@ func (_m *PokemonServiceInterface) FetchOne(id int) (*models.Pokemon, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(int) error); ok {
-		r1 = rf(id)
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, id)
 	} else {
 		r1 = ret.Error(1)
 	}

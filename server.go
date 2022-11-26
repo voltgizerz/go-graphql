@@ -39,11 +39,16 @@ func main() {
 		port = defaultPort
 	}
 
+	// Access needed on resolvers
+	resolverData := resolvers.ResolverData{
+		PokemonService: pokemonService,
+		TypeService:    typeService,
+	}
+
+	resolvers := resolvers.NewResolver(resolverData)
+
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{
-		Resolvers: &resolvers.Resolver{
-			PokemonService: pokemonService,
-			TypeService:    typeService,
-		},
+		Resolvers: resolvers,
 	}))
 
 	srv.SetRecoverFunc(func(ctx context.Context, err interface{}) error {

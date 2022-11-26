@@ -2,6 +2,7 @@
 
 package mocks
 
+import context "context"
 import mock "github.com/stretchr/testify/mock"
 import models "github.com/go-graphql/models"
 
@@ -10,13 +11,13 @@ type TypeServiceInterface struct {
 	mock.Mock
 }
 
-// FetchAll provides a mock function with given fields: typeID
-func (_m *TypeServiceInterface) FetchAll(typeID int) ([]*models.Type, error) {
-	ret := _m.Called(typeID)
+// FetchAll provides a mock function with given fields: ctx, pokemonID
+func (_m *TypeServiceInterface) FetchAll(ctx context.Context, pokemonID int) ([]*models.Type, error) {
+	ret := _m.Called(ctx, pokemonID)
 
 	var r0 []*models.Type
-	if rf, ok := ret.Get(0).(func(int) []*models.Type); ok {
-		r0 = rf(typeID)
+	if rf, ok := ret.Get(0).(func(context.Context, int) []*models.Type); ok {
+		r0 = rf(ctx, pokemonID)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]*models.Type)
@@ -24,8 +25,8 @@ func (_m *TypeServiceInterface) FetchAll(typeID int) ([]*models.Type, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(int) error); ok {
-		r1 = rf(typeID)
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, pokemonID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -33,13 +34,13 @@ func (_m *TypeServiceInterface) FetchAll(typeID int) ([]*models.Type, error) {
 	return r0, r1
 }
 
-// FetchAllByPokemonID provides a mock function with given fields: pokemonID
-func (_m *TypeServiceInterface) FetchAllByPokemonID(pokemonID int) ([]*models.Type, error) {
-	ret := _m.Called(pokemonID)
+// FetchOne provides a mock function with given fields: ctx, typeID
+func (_m *TypeServiceInterface) FetchOne(ctx context.Context, typeID int) ([]*models.Type, error) {
+	ret := _m.Called(ctx, typeID)
 
 	var r0 []*models.Type
-	if rf, ok := ret.Get(0).(func(int) []*models.Type); ok {
-		r0 = rf(pokemonID)
+	if rf, ok := ret.Get(0).(func(context.Context, int) []*models.Type); ok {
+		r0 = rf(ctx, typeID)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]*models.Type)
@@ -47,8 +48,8 @@ func (_m *TypeServiceInterface) FetchAllByPokemonID(pokemonID int) ([]*models.Ty
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(int) error); ok {
-		r1 = rf(pokemonID)
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, typeID)
 	} else {
 		r1 = ret.Error(1)
 	}
