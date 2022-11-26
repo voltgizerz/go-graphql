@@ -33,7 +33,7 @@ func (p *TypeRepository) queryBuilder(baseQuery string, typeID int) (string, []i
 	return baseQuery, vals
 }
 
-// FindAll -
+// FindTypeByID -
 func (p *TypeRepository) FindTypeByID(typeID int) ([]*models.Type, error) {
 	query, vals := p.queryBuilder("SELECT * from types ", typeID)
 	rows, err := p.DB.Query(query, vals...)

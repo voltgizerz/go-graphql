@@ -45,7 +45,7 @@ func (p *PokemonRepository) queryBuilder(baseQuery string, limit int, offset int
 	return baseQuery, vals
 }
 
-// FindAll -
+// FetchAllPokemonData -
 func (p *PokemonRepository) FetchAllPokemonData(limit int, offset int) ([]*models.Pokemon, error) {
 	query, vals := p.queryBuilder("SELECT * from pokemons ", limit, offset)
 	rows, err := p.DB.Query(query, vals...)

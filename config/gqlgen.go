@@ -15,8 +15,10 @@ import (
 	"github.com/vektah/gqlparser/gqlerror"
 )
 
-const DEFAULT_PORT = "8080"
+// defaultPort - running port
+const defaultPort = "8080"
 
+// InitGQL - init gqlgen
 func InitGQL(srv *handler.Server) {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
@@ -36,7 +38,7 @@ func InitGQL(srv *handler.Server) {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = DEFAULT_PORT
+		port = defaultPort
 	}
 
 	logger.Log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)

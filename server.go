@@ -30,9 +30,9 @@ func main() {
 		TypeService:    typeService,
 	}
 
-	resolvers := resolvers.NewResolver(resolverData)
+	resolver := resolvers.NewResolver(resolverData)
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{
-		Resolvers: resolvers,
+		Resolvers: resolver,
 	}))
 
 	// initialize GQL
