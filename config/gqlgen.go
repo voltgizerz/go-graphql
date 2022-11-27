@@ -41,7 +41,7 @@ func InitGQL(srv *handler.Server) {
 		port = defaultPort
 	}
 
-	logger.Log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	logger.Log.Infof("connect to http://localhost:%s/ for GraphQL playground", port)
 
 	err := http.ListenAndServe(":"+port, router)
 	if err != nil {
