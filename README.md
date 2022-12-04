@@ -45,7 +45,7 @@ make check
 make format
 ```
 
-## GrapQL Features
+## GraphQL Features
 
 💡 **Query**
 
@@ -59,11 +59,11 @@ make format
 
 💡 **Request Header**
 
-`
+```
 {
   "user_id": 2323
 }
-`
+```
 
 ## Author
 
