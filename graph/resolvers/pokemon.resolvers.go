@@ -58,7 +58,7 @@ func (r *queryResolver) Pokemon(ctx context.Context, pokemonID int) (*models.Pok
 		"user_id":  user.UserID,
 		"is_admin": user.IsAdmin,
 	}).Info("Pokemon queryResolver")
-	
+
 	res, err := r.Resolver.PokemonService.FetchOne(ctx, pokemonID)
 	if err != nil {
 		return nil, gqlerror.Errorf(err.Error())

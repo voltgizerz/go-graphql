@@ -47,21 +47,57 @@ make format
 
 ## GraphQL Features
 
-💡 **Query**
-
-* Show all data pokemon (limit, offset, sort)
-* Show data pokemon by ID
-
-💡 **Mutation**
-
-* Update Pokemon
-* Delete Pokemon
-
 💡 **Request Header**
 
 ```
 {
   "user_id": 2323
+}
+```
+
+💡 **Query**
+
+* Show all data pokemon (limit, offset, sort)
+```
+query pokemons {
+  pokemons {
+    id
+    height
+    name
+  }
+}
+```
+* Show data pokemon by ID
+```
+query pokemon {
+  pokemon(pokemonID: 1) {
+    name
+    types {
+      id
+    }
+    height
+    weight
+  }
+}
+```
+
+💡 **Mutation**
+
+* Update Pokemon
+```
+mutation update{
+  updatePokemon(input:{id: 1}){
+    success
+    pokemon{id}
+  }
+}
+```
+* Delete Pokemon
+```
+mutation delete {
+  deletePokemon(input:{id:11}){
+    success
+  }
 }
 ```
 
