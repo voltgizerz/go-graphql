@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	"github.com/go-graphql/auth"
 	"github.com/go-graphql/errors"
 	"github.com/go-graphql/graph/generated"
 	"github.com/go-graphql/mocks"
@@ -45,17 +46,21 @@ func initMockObject(t *testing.T) MockObjectData {
 func TestPokemonResolver_Create(t *testing.T) {
 	testObj := initMockObject(t)
 
-	t.Run("Success", func(t *testing.T) {
-		testObj.MockPokeService.EXPECT().Create(context.Background(), models.CreatePokemonInput{}).Return(&models.Pokemon{}, nil)
+	user := &auth.User{UserID: 123, Name: "felix", IsAdmin: true}
+	ctx := context.Background()
+	ctx = context.WithValue(ctx, auth.CONTEXT_USER, user)
 
-		poke, err := testObj.MockMutationResolver.CreatePokemon(context.Background(), models.CreatePokemonInput{})
+	t.Run("Success", func(t *testing.T) {
+		testObj.MockPokeService.EXPECT().Create(ctx, models.CreatePokemonInput{}).Return(&models.Pokemon{}, nil)
+
+		poke, err := testObj.MockMutationResolver.CreatePokemon(ctx, models.CreatePokemonInput{})
 		assert.NotNil(t, poke)
 		assert.Nil(t, err)
 	})
 	t.Run("Failed", func(t *testing.T) {
-		testObj.MockPokeService.EXPECT().Create(context.Background(), models.CreatePokemonInput{}).Return(nil, errors.ErrorOccur)
+		testObj.MockPokeService.EXPECT().Create(ctx, models.CreatePokemonInput{}).Return(nil, errors.ErrorOccur)
 
-		poke, err := testObj.MockMutationResolver.CreatePokemon(context.Background(), models.CreatePokemonInput{})
+		poke, err := testObj.MockMutationResolver.CreatePokemon(ctx, models.CreatePokemonInput{})
 		assert.Nil(t, poke)
 		assert.NotNil(t, err)
 	})

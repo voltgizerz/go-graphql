@@ -4,8 +4,7 @@ module github.com/go-graphql
 go 1.19
 
 require (
-	github.com/99designs/gqlgen v0.17.20
-	github.com/antonfisher/nested-logrus-formatter v1.3.1
+	github.com/99designs/gqlgen v0.17.21
 	github.com/go-chi/chi v1.5.4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/joho/godotenv v1.4.0
@@ -26,7 +25,6 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
-	github.com/stretchr/objx v0.1.0 // indirect
 	github.com/urfave/cli/v2 v2.23.5 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	golang.org/x/mod v0.7.0 // indirect

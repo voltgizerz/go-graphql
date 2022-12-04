@@ -25,8 +25,10 @@ func InitGQL(srv *handler.Server) {
 	router.Use(auth.Middleware())
 
 	srv.SetRecoverFunc(func(ctx context.Context, err interface{}) error {
+		user, _ := auth.ForContext(ctx)
+
 		logger.Log.WithFields(logrus.Fields{
-			"user_id": auth.ForContext(ctx).UserID,
+			"user_id": user.UserID,
 			"error":   err,
 		}).Error("Panic Recovered!")
 

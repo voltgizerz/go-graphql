@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/go-graphql/logger"
+	"github.com/go-graphql/errors"
 )
 
 type contextKey string
@@ -29,10 +29,14 @@ func Middleware() func(http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			userID, err := strconv.Atoi(r.Header.Get("user_id"))
 			if err != nil {
-				logger.Log.Error("Header user_id is invalid or not set!")
+				userID = 0 // Default to 0 when header user_id not set
 			}
 
-			user := &User{UserID: userID, Name: "felix", IsAdmin: true}
+			user := &User{
+				UserID:  userID,
+				Name:    "felix",
+				IsAdmin: true,
+			}
 
 			// put it in context
 			ctx := context.WithValue(r.Context(), CONTEXT_USER, user)
@@ -45,7 +49,11 @@ func Middleware() func(http.Handler) http.Handler {
 }
 
 // ForContext finds the user from the context. REQUIRES Middleware to have run.
-func ForContext(ctx context.Context) *User {
+func ForContext(ctx context.Context) (*User, error) {
 	raw, _ := ctx.Value(CONTEXT_USER).(*User)
-	return raw
+	if raw.UserID == 0 {
+		return nil, errors.ErrorHeaderNotSet
+	}
+
+	return raw, nil
 }
