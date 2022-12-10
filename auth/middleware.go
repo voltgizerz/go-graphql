@@ -3,7 +3,6 @@ package auth
 import (
 	"context"
 	"net/http"
-	"strconv"
 
 	"github.com/go-graphql/errors"
 )
@@ -18,24 +17,27 @@ const (
 
 // User - a stand-in for our database backed user object
 type User struct {
-	UserID  int
-	Name    string
-	IsAdmin bool
+	UserID   int
+	Username string
+	Name     string
+	IsAdmin  bool
 }
 
 // Middleware - handle auth data
 func Middleware() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			userID, err := strconv.Atoi(r.Header.Get("user_id"))
-			if err != nil {
-				userID = 0 // Default to 0 when header user_id not set
-			}
+			user := &User{}
+			authToken := r.Header.Get("authorization")
 
-			user := &User{
-				UserID:  userID,
-				Name:    "felix",
-				IsAdmin: true,
+			if authToken != "" {
+				data, err := ValidateAuthorization(authToken)
+				if err == nil {
+					user.IsAdmin = data.IsAdmin
+					user.Name = data.Name
+					user.Username = data.Username
+					user.UserID = data.UserID
+				}
 			}
 
 			// put it in context
@@ -52,7 +54,7 @@ func Middleware() func(http.Handler) http.Handler {
 func ForContext(ctx context.Context) (*User, error) {
 	raw, _ := ctx.Value(CONTEXT_USER).(*User)
 	if raw.UserID == 0 {
-		return nil, errors.ErrorHeaderNotSet
+		return nil, errors.ErrorNoAuthorization
 	}
 
 	return raw, nil
