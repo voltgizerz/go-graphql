@@ -21,7 +21,7 @@ func (r *queryResolver) Pokemons(ctx context.Context, limit *int, offset *int) (
 	if err != nil {
 		logger.Log.WithFields(logrus.Fields{
 			"error": err.Error(),
-		}).Error("User Authorization")
+		}).Error("ForContext")
 		return nil, gqlerror.Errorf(err.Error())
 	}
 

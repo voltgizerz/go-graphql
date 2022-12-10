@@ -10,7 +10,6 @@ import (
 
 // ResolverData -
 type ResolverData struct {
-	AuthService    service.AuthServiceInterface
 	PokemonService service.PokemonServiceInterface
 	TypeService    service.TypeServiceInterface
 	// Other interfaces needed....
@@ -19,7 +18,6 @@ type ResolverData struct {
 // NewResolver -
 func NewResolver(data ResolverData) *Resolver {
 	return &Resolver{
-		AuthService:    data.AuthService,
 		PokemonService: data.PokemonService,
 		TypeService:    data.TypeService,
 	}
@@ -27,7 +25,6 @@ func NewResolver(data ResolverData) *Resolver {
 
 // Resolver -
 type Resolver struct {
-	AuthService    service.AuthServiceInterface
 	PokemonService service.PokemonServiceInterface
 	TypeService    service.TypeServiceInterface
 }

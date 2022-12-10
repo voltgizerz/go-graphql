@@ -22,7 +22,7 @@ func (r *pokemonResolver) Types(ctx context.Context, obj *models.Pokemon) ([]*mo
 	if err != nil {
 		logger.Log.WithFields(logrus.Fields{
 			"error": err.Error(),
-		}).Error("User Authorization")
+		}).Error("ForContext")
 		return nil, gqlerror.Errorf(err.Error())
 	}
 
@@ -50,7 +50,7 @@ func (r *queryResolver) Pokemon(ctx context.Context, pokemonID int) (*models.Pok
 	if err != nil {
 		logger.Log.WithFields(logrus.Fields{
 			"error": err.Error(),
-		}).Error("User Authorization")
+		}).Error("ForContext")
 		return nil, gqlerror.Errorf(err.Error())
 	}
 
@@ -70,4 +70,8 @@ func (r *queryResolver) Pokemon(ctx context.Context, pokemonID int) (*models.Pok
 // Pokemon returns generated.PokemonResolver implementation.
 func (r *Resolver) Pokemon() generated.PokemonResolver { return &pokemonResolver{r} }
 
+// Query returns generated.QueryResolver implementation.
+func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
+
 type pokemonResolver struct{ *Resolver }
+type queryResolver struct{ *Resolver }

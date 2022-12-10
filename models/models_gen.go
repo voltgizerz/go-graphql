@@ -22,17 +22,6 @@ type DeletePokemonPayload struct {
 	Success bool `json:"success"`
 }
 
-type LoginInput struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
-type LoginPayload struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
-	Token   string `json:"token"`
-}
-
 type PokemonType struct {
 	ID        string `json:"id"`
 	PokemonID int    `json:"pokemonID"`

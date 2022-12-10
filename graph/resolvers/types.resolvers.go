@@ -21,7 +21,7 @@ func (r *queryResolver) Types(ctx context.Context, typeID *int) ([]*models.Type,
 	if err != nil {
 		logger.Log.WithFields(logrus.Fields{
 			"error": err.Error(),
-		}).Error("User Authorization")
+		}).Error("ForContext")
 		return nil, gqlerror.Errorf(err.Error())
 	}
 

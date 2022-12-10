@@ -55,12 +55,6 @@ type ComplexityRoot struct {
 		Success func(childComplexity int) int
 	}
 
-	LoginPayload struct {
-		Message func(childComplexity int) int
-		Success func(childComplexity int) int
-		Token   func(childComplexity int) int
-	}
-
 	Mutation struct {
 		CreatePokemon func(childComplexity int, input models.CreatePokemonInput) int
 		DeletePokemon func(childComplexity int, input models.DeletePokemonInput) int
@@ -84,7 +78,6 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Login              func(childComplexity int, input models.LoginInput) int
 		Pokemon            func(childComplexity int, pokemonID int) int
 		Pokemons           func(childComplexity int, limit *int, offset *int) int
 		Types              func(childComplexity int, typeID *int) int
@@ -116,7 +109,6 @@ type PokemonResolver interface {
 	Types(ctx context.Context, obj *models.Pokemon) ([]*models.Type, error)
 }
 type QueryResolver interface {
-	Login(ctx context.Context, input models.LoginInput) (*models.LoginPayload, error)
 	Pokemon(ctx context.Context, pokemonID int) (*models.Pokemon, error)
 	Pokemons(ctx context.Context, limit *int, offset *int) ([]*models.Pokemon, error)
 	Types(ctx context.Context, typeID *int) ([]*models.Type, error)
@@ -157,27 +149,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.DeletePokemonPayload.Success(childComplexity), true
-
-	case "LoginPayload.message":
-		if e.complexity.LoginPayload.Message == nil {
-			break
-		}
-
-		return e.complexity.LoginPayload.Message(childComplexity), true
-
-	case "LoginPayload.success":
-		if e.complexity.LoginPayload.Success == nil {
-			break
-		}
-
-		return e.complexity.LoginPayload.Success(childComplexity), true
-
-	case "LoginPayload.token":
-		if e.complexity.LoginPayload.Token == nil {
-			break
-		}
-
-		return e.complexity.LoginPayload.Token(childComplexity), true
 
 	case "Mutation.createPokemon":
 		if e.complexity.Mutation.CreatePokemon == nil {
@@ -285,18 +256,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.PokemonType.TypeID(childComplexity), true
 
-	case "Query.login":
-		if e.complexity.Query.Login == nil {
-			break
-		}
-
-		args, err := ec.field_Query_login_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Query.Login(childComplexity, args["input"].(models.LoginInput)), true
-
 	case "Query.pokemon":
 		if e.complexity.Query.Pokemon == nil {
 			break
@@ -392,7 +351,6 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputCreatePokemonInput,
 		ec.unmarshalInputDeletePokemonInput,
-		ec.unmarshalInputLoginInput,
 		ec.unmarshalInputUpdatePokemonInput,
 	)
 	first := true
@@ -454,20 +412,6 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "../schemas/authorization.graphqls", Input: `extend type Query {
-  login(input: LoginInput! ): LoginPayload
-}
-
-input LoginInput {
-  username: String!
-  password: String!
-}
-
-type LoginPayload {
-  success: Boolean!
-  message: String!
-  token: String!
-}`, BuiltIn: false},
 	{Name: "../schemas/federation.graphqls", Input: ``, BuiltIn: false},
 	{Name: "../schemas/pokemon/create_pokemon.graphqls", Input: `
 extend type Mutation {
@@ -635,21 +579,6 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Query_login_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 models.LoginInput
-	if tmp, ok := rawArgs["input"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNLoginInput2githubᚗcomᚋgoᚑgraphqlᚋmodelsᚐLoginInput(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["input"] = arg0
 	return args, nil
 }
 
@@ -886,138 +815,6 @@ func (ec *executionContext) fieldContext_DeletePokemonPayload_success(ctx contex
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _LoginPayload_success(ctx context.Context, field graphql.CollectedField, obj *models.LoginPayload) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LoginPayload_success(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Success, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(bool)
-	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_LoginPayload_success(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "LoginPayload",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _LoginPayload_message(ctx context.Context, field graphql.CollectedField, obj *models.LoginPayload) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LoginPayload_message(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Message, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_LoginPayload_message(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "LoginPayload",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _LoginPayload_token(ctx context.Context, field graphql.CollectedField, obj *models.LoginPayload) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_LoginPayload_token(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Token, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_LoginPayload_token(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "LoginPayload",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1636,66 +1433,6 @@ func (ec *executionContext) fieldContext_PokemonType_slot(ctx context.Context, f
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
 		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_login(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_login(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Login(rctx, fc.Args["input"].(models.LoginInput))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*models.LoginPayload)
-	fc.Result = res
-	return ec.marshalOLoginPayload2ᚖgithubᚗcomᚋgoᚑgraphqlᚋmodelsᚐLoginPayload(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_login(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Query",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "success":
-				return ec.fieldContext_LoginPayload_success(ctx, field)
-			case "message":
-				return ec.fieldContext_LoginPayload_message(ctx, field)
-			case "token":
-				return ec.fieldContext_LoginPayload_token(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type LoginPayload", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_login_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return
 	}
 	return fc, nil
 }
@@ -4197,42 +3934,6 @@ func (ec *executionContext) unmarshalInputDeletePokemonInput(ctx context.Context
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputLoginInput(ctx context.Context, obj interface{}) (models.LoginInput, error) {
-	var it models.LoginInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"username", "password"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "username":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("username"))
-			it.Username, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "password":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
-			it.Password, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
 func (ec *executionContext) unmarshalInputUpdatePokemonInput(ctx context.Context, obj interface{}) (models.UpdatePokemonInput, error) {
 	var it models.UpdatePokemonInput
 	asMap := map[string]interface{}{}
@@ -4349,48 +4050,6 @@ func (ec *executionContext) _DeletePokemonPayload(ctx context.Context, sel ast.S
 		case "success":
 
 			out.Values[i] = ec._DeletePokemonPayload_success(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var loginPayloadImplementors = []string{"LoginPayload"}
-
-func (ec *executionContext) _LoginPayload(ctx context.Context, sel ast.SelectionSet, obj *models.LoginPayload) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, loginPayloadImplementors)
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("LoginPayload")
-		case "success":
-
-			out.Values[i] = ec._LoginPayload_success(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "message":
-
-			out.Values[i] = ec._LoginPayload_message(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "token":
-
-			out.Values[i] = ec._LoginPayload_token(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -4595,26 +4254,6 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
-		case "login":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Query_login(ctx, field)
-				return res
-			}
-
-			rrm := func(ctx context.Context) graphql.Marshaler {
-				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return rrm(innerCtx)
-			})
 		case "pokemon":
 			field := field
 
@@ -5196,11 +4835,6 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
-func (ec *executionContext) unmarshalNLoginInput2githubᚗcomᚋgoᚑgraphqlᚋmodelsᚐLoginInput(ctx context.Context, v interface{}) (models.LoginInput, error) {
-	res, err := ec.unmarshalInputLoginInput(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) marshalNPokemon2ᚖgithubᚗcomᚋgoᚑgraphqlᚋmodelsᚐPokemon(ctx context.Context, sel ast.SelectionSet, v *models.Pokemon) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -5557,13 +5191,6 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	}
 	res := graphql.MarshalInt(*v)
 	return res
-}
-
-func (ec *executionContext) marshalOLoginPayload2ᚖgithubᚗcomᚋgoᚑgraphqlᚋmodelsᚐLoginPayload(ctx context.Context, sel ast.SelectionSet, v *models.LoginPayload) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._LoginPayload(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOPokemon2ᚕᚖgithubᚗcomᚋgoᚑgraphqlᚋmodelsᚐPokemon(ctx context.Context, sel ast.SelectionSet, v []*models.Pokemon) graphql.Marshaler {

@@ -21,8 +21,6 @@ func main() {
 	typeRepo := repository.NewTypeRepository(db)
 
 	// initialize service
-	authService := service.NewAuthService()
-
 	pokemonService := service.NewPokemonService(pokemonRepo)
 	typeService := service.NewTypeService(typeRepo)
 
@@ -30,7 +28,6 @@ func main() {
 	resolverData := resolvers.ResolverData{
 		PokemonService: pokemonService,
 		TypeService:    typeService,
-		AuthService:    authService,
 	}
 
 	resolver := resolvers.NewResolver(resolverData)
