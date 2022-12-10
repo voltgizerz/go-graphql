@@ -2,8 +2,8 @@ package errors
 
 import "errors"
 
-// ErrorOccur - .
-var ErrorOccur = errors.New("error")
-
-// ErrorHeaderNotSet - .
-var ErrorHeaderNotSet = errors.New("header user_id is not set")
+var (
+	ErrorOccur           = errors.New("error")
+	ErrorNoAuthorization = errors.New("authorization is not valid!")
+	ErrorAuth            = errors.New("username or Password invalid!")
+)
