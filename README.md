@@ -51,12 +51,21 @@ make format
 
 ```
 {
-  "user_id": 2323
+  "Authorization":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzA2NzI0MjQsImlzcyI6Impob24iLCJVc2VySUQiOjgxLCJVc2VybmFtZSI6ImZlbGl4IiwiTmFtZSI6IkZlbGl4IiwiSXNBZG1pbiI6dHJ1ZSwiRXhwaXJlc0F0IjoxNjcwNjcyNDI0fQ.noKdYN3fhr7iwQmlDy1xYn1FqLsZ4gY-ORkWf3oeP_I"
 }
 ```
 
 💡 **Query**
-
+* Login get token
+```
+query login {
+  login(input: {username: "felix", password: "felix"}) {
+    success
+    message
+    token
+  }
+}
+```
 * Show all data pokemon (limit, offset, sort)
 ```
 query pokemons {

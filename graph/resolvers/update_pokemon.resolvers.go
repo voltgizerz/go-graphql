@@ -20,7 +20,7 @@ func (r *mutationResolver) UpdatePokemon(ctx context.Context, input models.Updat
 	if err != nil {
 		logger.Log.WithFields(logrus.Fields{
 			"error": err.Error(),
-		}).Error("ForContext")
+		}).Error("User Authorization")
 		return nil, gqlerror.Errorf(err.Error())
 	}
 
