@@ -13,7 +13,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-// PokemonServiceInterface - .
+// AuthServiceInterface - .
 type AuthServiceInterface interface {
 	Login(ctx context.Context, input models.LoginInput) (string, error)
 }
@@ -24,6 +24,7 @@ type AuthService struct {
 	SecretKey string
 }
 
+// NewAuthService - .
 func NewAuthService() AuthServiceInterface {
 	return &AuthService{
 		Issuer:    os.Getenv("JWT_ISSUER"),
@@ -31,6 +32,7 @@ func NewAuthService() AuthServiceInterface {
 	}
 }
 
+// Login - login user
 func (a *AuthService) Login(ctx context.Context, input models.LoginInput) (string, error) {
 	if input.Username != os.Getenv("LOGIN_USERNAME") || input.Password != os.Getenv("LOGIN_PASSWORD") {
 		return "", errors.ErrorAuth
