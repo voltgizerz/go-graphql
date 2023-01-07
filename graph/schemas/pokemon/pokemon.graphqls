@@ -2,7 +2,7 @@ extend type Query {
   pokemon(pokemonID: Int!): Pokemon
 }
 
-type Pokemon {
+type Pokemon @key(fields: "id") {
   id: ID!
   name: String!
   height: Int!

@@ -9,3 +9,5 @@ type Pokemon struct {
 	BaseExperience int     `json:"baseExperience"`
 	Types          []*Type `json:"types"`
 }
+
+func (Pokemon) IsEntity() {}

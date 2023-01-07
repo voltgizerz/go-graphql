@@ -7,12 +7,11 @@ package resolvers
 import (
 	"context"
 
+	"github.com/go-graphql/graph/generated"
 	"github.com/go-graphql/logger"
+	"github.com/go-graphql/models"
 	"github.com/sirupsen/logrus"
 	"github.com/vektah/gqlparser/gqlerror"
-
-	"github.com/go-graphql/graph/generated"
-	"github.com/go-graphql/models"
 )
 
 // Login is the resolver for the login field.
