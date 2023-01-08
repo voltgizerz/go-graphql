@@ -16,7 +16,7 @@ import (
 )
 
 // defaultPort - running port
-const defaultPort = "8080"
+const defaultPort = "8086"
 
 // InitGQL - init gqlgen
 func InitGQL(srv *handler.Server) {
