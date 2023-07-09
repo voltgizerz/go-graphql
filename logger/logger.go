@@ -1,17 +1,22 @@
 package logger
 
 import (
-	log "github.com/sirupsen/logrus"
+	nested "github.com/antonfisher/nested-logrus-formatter"
+	logrus "github.com/sirupsen/logrus"
 )
 
 // Log - logrus logging.
 //
 //revive:disable:import-shadowing
-var (
-	Log *log.Logger
-)
+var Log *logrus.Logger
 
 // SetupLog - return logrus.
 func init() {
-	Log = log.New()
+	log := logrus.New()
+	log.SetFormatter(&nested.Formatter{
+		HideKeys:    true,
+		FieldsOrder: []string{"component", "category"},
+	})
+
+	Log = log
 }
