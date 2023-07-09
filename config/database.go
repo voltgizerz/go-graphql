@@ -2,6 +2,7 @@ package config
 
 import (
 	"database/sql"
+	"fmt"
 	"os"
 	"time"
 
@@ -17,18 +18,22 @@ type Database struct {
 }
 
 // InitDB - .
-func InitDB() *Database {
-	db, err := sql.Open("mysql", os.Getenv("DATA_SOURCE"))
+func InitDB() (*Database, error) {
+	dataSource := os.Getenv("DATA_SOURCE")
+	if dataSource == "" {
+		return nil, fmt.Errorf("DATA_SOURCE environment variable is empty or not set")
+	}
+
+	db, err := sql.Open("mysql", dataSource)
 	if err != nil {
-		logger.Log.Println(errors.Wrap(err, "database connection"))
-		panic(err)
+		return nil, fmt.Errorf("failed to open database connection: %w", err)
 	}
 
 	db.SetMaxOpenConns(10)
 	db.SetConnMaxIdleTime(time.Minute * 10)
 
-	logger.Log.Println("database connected...")
-	return &Database{DB: db}
+	fmt.Println("Database connected...")
+	return &Database{DB: db}, nil
 }
 
 // Close - close db
