@@ -1,0 +1,12 @@
+extend type Query {
+  pokemon(pokemonID: Int!): Pokemon
+}
+
+type Pokemon @key(fields: "id") {
+  id: ID!
+  name: String!
+  height: Int!
+  weight: Int!
+  baseExperience: Int!
+  types: [Type]
+}

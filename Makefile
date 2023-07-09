@@ -3,14 +3,14 @@ format:
 
 gr:
 	go run github.com/99designs/gqlgen generate
-	go run server.go
+	go run ./cmd/server.go
 
 generate:
 	go run github.com/99designs/gqlgen generate
 
 run:
 	gofmt -w ./..
-	go run server.go
+	go run ./cmd/server.go
 
 test:
 	go test -v -cover ./...

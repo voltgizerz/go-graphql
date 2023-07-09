@@ -21,6 +21,7 @@ func InitDB() *Database {
 	db, err := sql.Open("mysql", os.Getenv("DATA_SOURCE"))
 	if err != nil {
 		logger.Log.Println(errors.Wrap(err, "database connection"))
+		panic(err)
 	}
 
 	db.SetMaxOpenConns(10)
