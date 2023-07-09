@@ -34,8 +34,10 @@ func main() {
 	config.LoadENV()
 
 	// initialize database
-	db := config.InitDB()
-
+	db, err := config.InitDB()
+	if err != nil {
+		logger.Log.Error(err)
+	}
 	// initialize repository
 	pokemonRepo := repository.NewPokemonRepository(db)
 	typeRepo := repository.NewTypeRepository(db)
