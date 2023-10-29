@@ -5,9 +5,12 @@ import (
 	"os/signal"
 
 	"github.com/go-graphql/config"
+	"github.com/go-graphql/database"
 	"github.com/go-graphql/internal/app/repository"
 	"github.com/go-graphql/internal/app/service"
-	"github.com/go-graphql/logger"
+	"github.com/go-graphql/pkg/env"
+	"github.com/go-graphql/pkg/gqlgen"
+	"github.com/go-graphql/pkg/logger"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/go-graphql/internal/app/graph/generated"
@@ -31,10 +34,11 @@ func main() {
 	// This goroutine will block until a signal is received.
 	go handleSignal(c)
 
-	config.LoadENV()
+	env.LoadENV()
+	_ = config.NewConfig()
 
 	// initialize database
-	db, err := config.InitDB()
+	db, err := database.InitDB()
 	if err != nil {
 		logger.Log.Error(err)
 	}
@@ -61,5 +65,5 @@ func main() {
 	}))
 
 	// initialize GQL
-	config.InitGQL(srv)
+	gqlgen.InitGQL(srv)
 }

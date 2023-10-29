@@ -1,7 +1,7 @@
-package config
+package env
 
 import (
-	"github.com/go-graphql/logger"
+	"github.com/go-graphql/pkg/logger"
 	"github.com/joho/godotenv"
 )
 

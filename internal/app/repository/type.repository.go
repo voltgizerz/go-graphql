@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/go-graphql/config"
 	"github.com/go-graphql/internal/app/models"
+	"github.com/go-graphql/database"
 )
 
 // TypeRepositoryInterface - .
@@ -13,11 +13,11 @@ type TypeRepositoryInterface interface {
 
 // TypeRepository -
 type TypeRepository struct {
-	DB *config.Database
+	DB *database.Database
 }
 
 // NewTypeRepository -
-func NewTypeRepository(DB *config.Database) TypeRepositoryInterface {
+func NewTypeRepository(DB *database.Database) TypeRepositoryInterface {
 	return &TypeRepository{
 		DB: DB,
 	}
