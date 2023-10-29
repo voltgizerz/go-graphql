@@ -32,7 +32,7 @@ jobs:
             go mod download
 
     - name: 👷 Build
-      run: go build ./cmd/app.go 
+      run: go build ./cmd/server.go 
 
     - name: 🧪 Run Unit tests
       run: |
