@@ -1,4 +1,4 @@
-package config
+package gqlgen
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-graphql/internal/app/auth"
-	"github.com/go-graphql/logger"
+	"github.com/go-graphql/pkg/logger"
 	"github.com/sirupsen/logrus"
 	"github.com/vektah/gqlparser/gqlerror"
 )

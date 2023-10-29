@@ -10,5 +10,5 @@ var (
 	ErrorNoAuthorization = errors.New("authorization is not valid")
 
 	// ErrorAuth - .
-	ErrorAuth = errors.New("username or Password invalid")
+	ErrorAuth = errors.New("username or password invalid")
 )

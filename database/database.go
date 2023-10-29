@@ -1,4 +1,4 @@
-package config
+package database
 
 import (
 	"database/sql"
@@ -7,7 +7,7 @@ import (
 	"time"
 
 	// database
-	"github.com/go-graphql/logger"
+	"github.com/go-graphql/pkg/logger"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/pkg/errors"
 )

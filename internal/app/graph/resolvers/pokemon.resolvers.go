@@ -11,7 +11,7 @@ import (
 	"github.com/go-graphql/internal/app/auth"
 	"github.com/go-graphql/internal/app/graph/generated"
 	"github.com/go-graphql/internal/app/models"
-	"github.com/go-graphql/logger"
+	"github.com/go-graphql/pkg/logger"
 	"github.com/sirupsen/logrus"
 	"github.com/vektah/gqlparser/gqlerror"
 )

@@ -5,8 +5,8 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/go-graphql/config"
 	"github.com/go-graphql/internal/app/models"
+		"github.com/go-graphql/database"
 )
 
 // PokemonRepositoryInterface - .
@@ -20,11 +20,11 @@ type PokemonRepositoryInterface interface {
 
 // PokemonRepository -
 type PokemonRepository struct {
-	DB *config.Database
+	DB *database.Database
 }
 
 // NewPokemonRepository -
-func NewPokemonRepository(DB *config.Database) PokemonRepositoryInterface {
+func NewPokemonRepository(DB *database.Database) PokemonRepositoryInterface {
 	return &PokemonRepository{
 		DB: DB,
 	}

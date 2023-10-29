@@ -1,0 +1,10 @@
+app:
+  name: 'Go GQL'
+  version: '1.0.0'
+  is_use_fake_data: true
+
+http:
+  port: '8080'
+
+database:
+  pool_max: 2
